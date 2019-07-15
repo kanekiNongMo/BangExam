@@ -1,5 +1,6 @@
 package com.bangexam.bangexam.service;
 
+import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.User;
 
 /**
@@ -15,4 +16,6 @@ public interface UserService {
      * @return 用户对象
      */
     User findByUsernameAndPassword(User user);
+
+    Result<User> getAllRoleByPage(Integer offset, Integer limit);
 }
