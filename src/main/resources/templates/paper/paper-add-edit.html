@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加试卷</title>
+    <header th:replace="header::html"></header>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form class="layui-form">
+            <input th:value="${examPaper.paperNo}" name="paperNo" type="hidden">
+            <div class="layui-form-item">
+                <label for="paperName" class="layui-form-label">
+                    <span class="x-red">*</span>试卷名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="paperName" th:value="${examPaper.paperName}" name="paperName" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red"></span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>技术类型
+                </label>
+                <div class="layui-input-inline">
+                    <select name="majorType" lay-filter="type" required="required">
+                        <option selected="selected" value=""></option>
+                        <option th:selected="${examPaper.majorType} == 1" value="1">Java</option>
+                        <option th:selected="${examPaper.majorType} == 2" value="2">测试</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-filter="save" lay-submit="save">
+                    增加
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layer', 'laydate'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({});
+
+        //监听提交
+        form.on('submit(save)', function (data) {
+                var isUpdate = false;
+                if (data.field.paperNo && data.field.paperNo.length > 0) {
+                    isUpdate = true;
+                }
+                $.ajax({
+                    url: isUpdate ? "/paper/edit" : "/paper/add",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data.field),
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.code === 500) {
+                            layer.msg(result.msg);
+                        } else {
+                            layer.alert("保存成功", {icon: 6}, function () {
+                                layer.close();
+                                xadmin.father_reload();
+                            });
+                        }
+                    }
+                });
+            return false;
+        });
+    });
+</script>

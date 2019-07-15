@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bangexam.bangexam.mapper.ExamPaperMapper">
+    <sql id="Base_Column_List_one">
+        paper_no as paperNo, major_type as majorType, paper_name as paperName, create_time as createTime, update_time as updateTime
+    </sql>
+    <sql id="Base_Column_List_two">
+        major_type, paper_name, create_time, update_time
+    </sql>
+    <select id="getAllPaperByPage" resultType="com.bangexam.bangexam.model.ExamPaper">
+        select
+        <include refid="Base_Column_List_one"/>
+        from exam_paper ep order by ep.paper_no limit #{startPosition}, #{limit}
+    </select>
+
+    <insert id="savePaper" parameterType="com.bangexam.bangexam.model.ExamPaper" useGeneratedKeys="true"
+            keyProperty="paperNo" keyColumn="paper_no">
+        insert into exam_paper(<include refid="Base_Column_List_two"/>)
+        values(#{majorType}, #{paperName}, now(), now())
+    </insert>
+
+    <select id="getPaperByPaperNo" parameterType="Integer" resultType="com.bangexam.bangexam.model.ExamPaper">
+        select
+        <include refid="Base_Column_List_one"/>
+        from exam_paper where paper_no = #{paperNo}
+    </select>
+
+    <update id="updatePaper" parameterType="com.bangexam.bangexam.model.ExamPaper">
+        update exam_paper ep
+        <set>
+            <if test="paperName != null">
+                paper_name = #{paperName},
+            </if>
+            <if test="majorType != null">
+                major_type = #{majorType},
+            </if>
+            update_time = now()
+        </set>
+        where ep.paper_no = #{paperNo}
+    </update>
+
+</mapper>
