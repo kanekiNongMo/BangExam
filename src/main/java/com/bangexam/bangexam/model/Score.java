@@ -31,4 +31,11 @@ public class Score implements Serializable {
 
     @Column(name = "exam_time")
     private String examTime;
+
+
+    @Column(name = "true_number")
+    private String trueNumber;
+
+    @Column(name = "false_number")
+    private String falseNumber;
 }

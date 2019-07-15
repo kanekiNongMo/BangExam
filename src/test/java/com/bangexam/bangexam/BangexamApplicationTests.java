@@ -1,10 +1,7 @@
 package com.bangexam.bangexam;
 
 import com.bangexam.bangexam.base.result.Result;
-import com.bangexam.bangexam.mapper.EssayQuestionMapper;
-import com.bangexam.bangexam.model.EssayQuestion;
 import com.bangexam.bangexam.model.ExamPaper;
-import com.bangexam.bangexam.repository.EssayQuestionRepository;
 import com.bangexam.bangexam.service.PaperService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

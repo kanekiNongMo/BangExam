@@ -41,6 +41,9 @@
         </div>
     </div>
 </div>
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="status" value="0" lay-skin="switch" lay-text="发布|取消" lay-filter="status" >
+</script>
 </body>
 </html>
 <script>
@@ -102,9 +105,14 @@
                     },
                     {field: 'createTime', title: '创建时间', sort: true},
                     {field: 'updateTime', title: '修改时间', sort: true},
+                    {field:'status', title:'是否发布', width:85, templet: '#switchTpl', unresize: true},
                     {fixed: 'right', title: '操作', minWidth: 140, toolbar: '#barDemo'}
                 ]
             ]
+        });
+        //监听性别操作
+        form.on('switch(status)', function(obj){
+            layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
         });
     });
 </script>
