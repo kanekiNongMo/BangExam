@@ -3,7 +3,6 @@ package com.bangexam.bangexam.controller;
 import com.bangexam.bangexam.base.result.PageTableRequest;
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.ExamPaper;
-import com.bangexam.bangexam.model.SingleChoiceQuestion;
 import com.bangexam.bangexam.service.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,14 +28,6 @@ public class QuestionsController {
         pageRequest.countOffset();
         return paperService.getAllPaperByPage(pageRequest.getOffset(), pageRequest.getLimit());
     }
-
-
-    @GetMapping("/add" )
-    public String addSingleChoice(Model model) {
-        model.addAttribute(new SingleChoiceQuestion());
-        return "questions/questions-add-edit";
-    }
-
 
     @GetMapping("/edit")
     public String editPaper(Model model, ExamPaper examPaper) {
