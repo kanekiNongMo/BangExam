@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>试卷列表</title>
+    <header th:replace="header::html"></header>
+</head>
+<body>
+<div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="">首页</a>
+            <a>
+              <cite>试卷列表</cite>
+            </a>
+          </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       onclick="location.reload()" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+
+
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-sm"
+                                onclick="xadmin.open('添加考题', '/questions/add', 500, 700)">
+                            添加考题
+                        </button>
+                    </div>
+
+                    <table class="layui-hide" id="table" lay-filter="member"></table>
+                    <script type="text/html" id="barDemo">
+                        <a class="layui-btn layui-btn-xs" lay-event="edit">修改考题</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    layui.use(['table', 'form'], function () {
+        var form = layui.form;
+        var table = layui.table;
+
+        table.on('tool(member)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('确定删除?', function () {
+                    $.ajax({
+                        url: "/paper/delete",
+                        type: 'GET',
+                        data: {paperNo: data.paperNo},
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.code === 500) {
+                                layer.alert(result.msg);
+                            } else {
+                                layer.alert("删除成功", {icon: 1}, function (index) {
+                                    layer.close(index);
+                                    // xadmin.father_reload();
+                                    table.reload("table")
+                                })
+                            }
+                        }
+                    });
+                });
+            } else if (obj.event === 'edit') {
+                xadmin.open('编辑试卷信息', '/paper/edit?paperNo=' + data.paperNo, 450, 340);
+            }
+        });
+
+        table.render({
+            elem: '#table'
+            , url: '/paper/list'
+            , page: true
+            , toolbar: '#toolbarDemo'
+            , cellMinWidth: 80
+            , response: {
+                countName: 'count',
+                dataName: 'datas'
+            }
+            , cols: [
+                [
+                    {field: 'paperNo', title: '试卷编号', sort: true},
+                    {field: 'paperName', title: '试卷名称', sort: true},
+                    {
+                        field: 'majorType', title: '技术类型', templet: function (data) {
+                            if (data.majorType === 1) {
+                                return "Java"
+                            } else if (data.majorType === 2) {
+                                return "测试"
+                            } else {
+                                return "未知"
+                            }
+                        }
+                    },
+                    {field: 'createTime', title: '创建时间', sort: true},
+                    {field: 'updateTime', title: '修改时间', sort: true},
+                    {fixed: 'right', title: '操作', minWidth: 140, toolbar: '#barDemo'}
+                ]
+            ]
+        });
+    });
+</script>
