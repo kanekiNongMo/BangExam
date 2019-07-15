@@ -1,5 +1,7 @@
 package com.bangexam.bangexam.service.impl;
 
+import com.bangexam.bangexam.base.result.Result;
+import com.bangexam.bangexam.mapper.UserMapper;
 import com.bangexam.bangexam.model.User;
 import com.bangexam.bangexam.repository.UserRepository;
 import com.bangexam.bangexam.service.UserService;
@@ -18,8 +20,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public User findByUsernameAndPassword(User user) {
         return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+    }
+
+    @Override
+    public Result<User> getAllRoleByPage(Integer offset, Integer limit) {
+        return Result.success(userMapper.countUser(), userMapper.getAllUserByPage(offset, limit));
     }
 }
