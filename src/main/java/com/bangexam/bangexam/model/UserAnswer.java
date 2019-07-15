@@ -26,9 +26,10 @@ public class UserAnswer implements Serializable {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "true_number")
-    private String trueNumber;
+    @Column(name = "answer")
+    private String answer;
 
-    @Column(name = "false_number")
-    private String falseNumber;
+    @Column(name = "question_id")
+    private String questionId;
+
 }

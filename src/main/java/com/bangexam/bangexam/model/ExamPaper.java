@@ -43,4 +43,7 @@ public class ExamPaper implements Serializable {
     @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String updateTime;
 
+    @Column(name = "status")
+    private String status;
+
 }

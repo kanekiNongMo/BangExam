@@ -10,24 +10,38 @@ import java.io.Serializable;
 
 /**
  * @author kaneki
- * @date 2019/7/13 15:51
+ * @date 2019/7/15 13:44
  */
 @Data
 @Entity
-@Table(name = "true_false_question")
-public class TrueOrFalseQuestion implements Serializable {
-
-    private static final long serialVersionUID = 3980300097499278393L;
+@Table(name = "question")
+public class Question implements Serializable {
+    private static final long serialVersionUID = -7112853022131957405L;
 
     @Id
     @Column(name = "question_no")
     private Integer questionNo;
 
-    @Column(name = "type_id")
+    @Column(name = "type")
     private Integer type;
+
+    @Column(name = "major_type")
+    private Integer majorType;
 
     @Column(name = "question_info")
     private String questionInfo;
+
+    @Column(name = "option_a")
+    private String aOption;
+
+    @Column(name = "option_b")
+    private String bOption;
+
+    @Column(name = "option_c")
+    private String cOption;
+
+    @Column(name = "option_d")
+    private String dOption;
 
     @Column(name = "answer")
     private String answer;
