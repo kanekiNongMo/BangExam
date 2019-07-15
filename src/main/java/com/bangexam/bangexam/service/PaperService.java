@@ -40,4 +40,5 @@ public interface PaperService {
      * @return 返回数据
      */
     Result<ExamPaper> updatePaper(ExamPaper examPaper);
+
 }
