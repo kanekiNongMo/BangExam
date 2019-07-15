@@ -32,20 +32,20 @@ public class Question implements Serializable {
     private String questionInfo;
 
     @Column(name = "option_a")
-    private String aOption;
+    private String optionA;
 
     @Column(name = "option_b")
-    private String bOption;
+    private String optionB;
 
     @Column(name = "option_c")
-    private String cOption;
+    private String optionC;
 
     @Column(name = "option_d")
-    private String dOption;
+    private String optionD;
 
     @Column(name = "answer")
     private String answer;
 
-    @Column(name = "explain")
-    private String explain;
+    @Column(name = "answer_explain")
+    private String answerExplain;
 }

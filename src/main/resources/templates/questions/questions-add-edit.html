@@ -14,7 +14,7 @@
                     <span class="x-red">*</span>题目
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="question" th:value="${question.questionInfo}"
+                    <input type="text" id="questionInfo" th:value="${question.questionInfo}"
                            name="questionInfo" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -27,8 +27,8 @@
                     选项A:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="question" th:value="${question.aOption}"
-                           name="aOption" required="" lay-verify="required"
+                    <input type="text" id="aOption" th:value="${question.optionA}"
+                           name="optionA" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -41,8 +41,8 @@
                     选项B:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="question" th:value="${question.bOption}"
-                           name="bOption" required="" lay-verify="required"
+                    <input type="text" id="bOption" th:value="${question.optionB}"
+                           name="optionB" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -55,8 +55,8 @@
                     选项C:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="question" th:value="${question.cOption}"
-                           name="cOption" required="" lay-verify="required"
+                    <input type="text" id="cOption" th:value="${question.optionC}"
+                           name="optionC" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -69,8 +69,8 @@
                     选项D:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="question" th:value="${question.dOption}"
-                           name="dOption" required="" lay-verify="required"
+                    <input type="text" id="dOption" th:value="${question.optionD}"
+                           name="optionD" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -84,13 +84,13 @@
                     答案:
                 </label>
                 <div class="layui-input-inline">
-                    A<input type="checkbox" id="question" value="A"
+                    A<input type="checkbox" id="answerA" value="A"
                             name="answer" class="layui-input">
-                    B<input type="checkbox" id="question" value="B"
+                    B<input type="checkbox" id="answerB" value="B"
                             name="answer" class="layui-input"> <br>
-                    C<input type="checkbox" id="question" value="C"
+                    C<input type="checkbox" id="answerC" value="C"
                             name="answer" class="layui-input">
-                    D<input type="checkbox" id="question" value="D"
+                    D<input type="checkbox" id="answerD" value="D"
                             name="answer" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -104,8 +104,8 @@
                 </label>
                 <div class="layui-input-inline">
 
-                    <textarea id="tktda" th:value="${question.explain}"
-                              name="explain" required="" lay-verify="required"
+                    <textarea id="tktda" th:value="${question.answer}"
+                              name="answer" required="" lay-verify="required"
                               autocomplete="off" class="layui-textarea"></textarea>
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -118,7 +118,7 @@
                     <span class="x-red">*</span>答案说明:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="question" th:value="${question.explain}"
+                    <input type="text" id="explain" th:value="${question.explain}"
                            name="explain" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -133,12 +133,25 @@
                     <span class="x-red">*</span>题目类型：
                 </label>
                 <div class="layui-input-inline">
-                    <select name="answer" lay-filter="type" required="required">
+                    <select name="type" lay-filter="type" required="required">
                         <option selected="selected" value=""></option>
                         <option value="1">判断题</option>
                         <option value="2">单选题</option>
                         <option value="3">多选题</option>
                         <option value="4">填空题</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>考卷类型：
+                </label>
+                <div class="layui-input-inline">
+                    <select name="majorType" lay-filter="type" required="required">
+                        <option selected="selected" value=""></option>
+                        <option  th:selected="${question.majorType} == 1" value="1">JAVA</option>
+                        <option  th:selected="${question.majorType} == 2" value="2">测试</option>
                     </select>
                 </div>
             </div>
@@ -170,7 +183,7 @@
                 isUpdate = true;
             }
             $.ajax({
-                url: isUpdate ? "/paper/edit" : "/paper/add",
+                url: isUpdate ? "/questions/edit" : "/questions/adds",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data.field),
@@ -179,7 +192,7 @@
                     if (result.code === 500) {
                         layer.msg(result.msg);
                     } else {
-                        layer.alert("保存成功", {icon: 6}, function () {
+                        layer.alert("添加成功", {icon: 6}, function () {
                             layer.close();
                             xadmin.father_reload();
                         });

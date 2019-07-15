@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bangexam.bangexam.mapper.QuestionMapper">
+
+    <sql id="Base_Column_List_one">
+      type as type, majorType as major_type, questionInfo as question_info, optionA as option_a, optionB as option_b, optionC as option_c, optionD as option_d, answer as answer, answerExplain as answer_explain
+    </sql>
+
+    <sql id="Base_Column_List_two">
+       type, major_type, question_info, option_a, option_b, option_c, option_d, answer, answer_explain
+    </sql>
+
+
+    <select id="getAllQuestionByPage" resultType="com.bangexam.bangexam.model.Question">
+        select
+        *
+<!--&#45;&#45;         <include refid="Base_Column_List_one"/>-->
+        from question q order by q.question_no limit #{startPosition}, #{limit}
+    </select>
+
+    <insert id="saveQuestion" parameterType="com.bangexam.bangexam.model.Question" useGeneratedKeys="true"
+            keyProperty="questionNo" keyColumn="question_no">
+        insert into question(<include refid="Base_Column_List_two"/>)
+        values(#{type}, #{majorType}, #{questionInfo}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{answer}, #{answerExplain})
+    </insert>
+
+
+    <select id="getQuestionByQuestionNo" parameterType="Integer" resultType="com.bangexam.bangexam.model.Question">
+        select
+        <include refid="Base_Column_List_one"/>
+        from question where question_no = #{questionNo}
+    </select>
+
+    <!--<update id="updatePaper" parameterType="com.bangexam.bangexam.model.ExamPaper">-->
+        <!--update exam_paper ep-->
+        <!--<set>-->
+            <!--<if test="paperName != null">-->
+                <!--paper_name = #{paperName},-->
+            <!--</if>-->
+            <!--<if test="majorType != null">-->
+                <!--major_type = #{majorType},-->
+            <!--</if>-->
+            <!--<if test="status != null">-->
+                <!--status = #{status},-->
+            <!--</if>-->
+            <!--update_time = now()-->
+        <!--</set>-->
+        <!--where ep.paper_no = #{paperNo}-->
+    <!--</update>-->
+
+</mapper>

@@ -53,9 +53,9 @@
             if (obj.event === 'del') {
                 layer.confirm('确定删除?', function () {
                     $.ajax({
-                        url: "/paper/delete",
+                        url: "/questions/delete",
                         type: 'GET',
-                        data: {paperNo: data.paperNo},
+                        data: {questionsNo: data.questionsNo},
                         dataType: 'json',
                         success: function (result) {
                             if (result.code === 500) {
@@ -71,13 +71,12 @@
                     });
                 });
             } else if (obj.event === 'edit') {
-                xadmin.open('编辑试卷信息', '/paper/edit?paperNo=' + data.paperNo, 450, 340);
+                xadmin.open('编辑考题信息', '/questions/edit?questionNo=' + data.questionNo, 450, 340);
             }
         });
-
         table.render({
             elem: '#table'
-            , url: '/paper/list'
+            , url: '/questions/list'
             , page: true
             , toolbar: '#toolbarDemo'
             , cellMinWidth: 80
@@ -87,8 +86,21 @@
             }
             , cols: [
                 [
-                    {field: 'paperNo', title: '试卷编号', sort: true},
-                    {field: 'paperName', title: '试卷名称', sort: true},
+                    {field: 'questionNo', title: '题目编号', sort: true},
+                    {field: 'questionInfo', title: '题目名', sort: true},
+                    {
+                        field: 'type', title: '题型', templet: function (data) {
+                            if (data.type === 1) {
+                                return "判断题"
+                            } else if (data.type === 2) {
+                                return "单选题"
+                            } else if (data.type === 3) {
+                                return "多选题"
+                            } else {
+                                return "填空题"
+                            }
+                        }
+                    },
                     {
                         field: 'majorType', title: '技术类型', templet: function (data) {
                             if (data.majorType === 1) {
@@ -100,9 +112,13 @@
                             }
                         }
                     },
-                    {field: 'createTime', title: '创建时间', sort: true},
-                    {field: 'updateTime', title: '修改时间', sort: true},
-                    {fixed: 'right', title: '操作', minWidth: 140, toolbar: '#barDemo'}
+                    {field: 'optionA', title: '选项A', sort: true},
+                    {field: 'optionB', title: '选项B', sort: true},
+                    {field: 'optionC', title: '选项C', sort: true},
+                    {field: 'optionD', title: '选项D', sort: true},
+                    {field: 'answer', title: '答案', sort: true},
+                    {field: 'explain', title: '解析', sort: true },
+                    {fixed: 'right', title: '操作',  minWidth: 140, toolbar: '#barDemo'}
                 ]
             ]
         });
