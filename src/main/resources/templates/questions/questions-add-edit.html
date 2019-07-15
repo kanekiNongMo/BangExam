@@ -10,11 +10,11 @@
     <div class="layui-row">
         <form class="layui-form">
             <div class="layui-form-item">
-                <label for="questionInfo" class="layui-form-label">
+                <label  class="layui-form-label">
                     <span class="x-red">*</span>题目
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="singleChoiceQuestion" th:value="${singleChoiceQuestion.questionInfo}"
+                    <input type="text" id="question" th:value="${question.questionInfo}"
                            name="questionInfo" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -23,11 +23,11 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="aOption" class="layui-form-label">
+                <label  class="layui-form-label">
                     选项A:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="singleChoiceQuestion" th:value="${singleChoiceQuestion.aOption}"
+                    <input type="text" id="question" th:value="${question.aOption}"
                            name="aOption" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -37,11 +37,11 @@
             </div>
 
             <div class="layui-form-item">
-                <label for="bOption" class="layui-form-label">
+                <label  class="layui-form-label">
                     选项B:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="singleChoiceQuestion" th:value="${singleChoiceQuestion.bOption}"
+                    <input type="text" id="question" th:value="${question.bOption}"
                            name="bOption" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -51,11 +51,11 @@
             </div>
 
             <div class="layui-form-item">
-                <label for="cOption" class="layui-form-label">
+                <label  class="layui-form-label">
                     选项C:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="singleChoiceQuestion" th:value="${singleChoiceQuestion.cOption}"
+                    <input type="text" id="question" th:value="${question.cOption}"
                            name="cOption" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -65,11 +65,11 @@
             </div>
 
             <div class="layui-form-item">
-                <label for="dOption" class="layui-form-label">
+                <label  class="layui-form-label">
                     选项D:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="singleChoiceQuestion" th:value="${singleChoiceQuestion.dOption}"
+                    <input type="text" id="question" th:value="${question.dOption}"
                            name="dOption" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
@@ -80,17 +80,17 @@
 
 
             <div class="layui-form-item">
-                <label for="answer" class="layui-form-label">
+                <label  class="layui-form-label">
                     答案:
                 </label>
                 <div class="layui-input-inline">
-                    A<input type="checkbox" id="singleChoiceQuestion" value="A"
+                    A<input type="checkbox" id="question" value="A"
                             name="answer" class="layui-input">
-                    B<input type="checkbox" id="singleChoiceQuestion" value="B"
+                    B<input type="checkbox" id="question" value="B"
                             name="answer" class="layui-input"> <br>
-                    C<input type="checkbox" id="singleChoiceQuestion" value="C"
+                    C<input type="checkbox" id="question" value="C"
                             name="answer" class="layui-input">
-                    D<input type="checkbox" id="singleChoiceQuestion" value="D"
+                    D<input type="checkbox" id="question" value="D"
                             name="answer" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -99,12 +99,12 @@
             </div>
 
             <div class="layui-form-item">
-                <label for="explain" class="layui-form-label">
+                <label  class="layui-form-label">
                     填空题答案:
                 </label>
                 <div class="layui-input-inline">
 
-                    <textarea id="tktda" th:value="${singleChoiceQuestion.explain}"
+                    <textarea id="tktda" th:value="${question.explain}"
                               name="explain" required="" lay-verify="required"
                               autocomplete="off" class="layui-textarea"></textarea>
                 </div>
@@ -114,11 +114,11 @@
             </div>
 
             <div class="layui-form-item">
-                <label for="explain" class="layui-form-label">
+                <label  class="layui-form-label">
                     <span class="x-red">*</span>答案说明:
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="singleChoiceQuestion" th:value="${singleChoiceQuestion.explain}"
+                    <input type="text" id="question" th:value="${question.explain}"
                            name="explain" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
