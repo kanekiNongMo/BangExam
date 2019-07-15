@@ -57,10 +57,13 @@
 
         //监听提交
         form.on('submit(save)', function (data) {
+                console.log(data.field);
+                console.log(JSON.stringify(data.field));
                 var isUpdate = false;
                 if (data.field.paperNo && data.field.paperNo.length > 0) {
                     isUpdate = true;
                 }
+                console.log(isUpdate);
                 $.ajax({
                     url: isUpdate ? "/paper/edit" : "/paper/add",
                     type: "POST",

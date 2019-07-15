@@ -7,10 +7,7 @@ import com.bangexam.bangexam.service.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author kaneki
@@ -37,7 +34,7 @@ public class PaperController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Result<ExamPaper> savePaper(ExamPaper examPaper) {
+    public Result<ExamPaper> savePaper(@RequestBody ExamPaper examPaper) {
         return examPaper == null ? Result.failure() : paperService.savePaper(examPaper);
     }
 
@@ -52,7 +49,7 @@ public class PaperController {
 
     @PostMapping("/edit")
     @ResponseBody
-    public Result<ExamPaper> updatePaper(ExamPaper examPaper) {
+    public Result<ExamPaper> updatePaper(@RequestBody ExamPaper examPaper) {
         return examPaper == null ? Result.failure() : paperService.updatePaper(examPaper);
     }
 

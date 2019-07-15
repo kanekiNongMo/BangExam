@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bangexam.bangexam.mapper.ExamPaperMapper">
     <sql id="Base_Column_List_one">
-        paper_no as paperNo, major_type as majorType, paper_name as paperName, create_time as createTime, update_time as updateTime
+        paper_no as paperNo, major_type as majorType, paper_name as paperName, create_time as createTime, update_time as updateTime, status as status
     </sql>
     <sql id="Base_Column_List_two">
         major_type, paper_name, create_time, update_time
@@ -33,6 +33,9 @@
             </if>
             <if test="majorType != null">
                 major_type = #{majorType},
+            </if>
+            <if test="status != null">
+                status = #{status},
             </if>
             update_time = now()
         </set>

@@ -1,10 +1,7 @@
 package com.bangexam.bangexam;
 
 import com.bangexam.bangexam.base.result.Result;
-import com.bangexam.bangexam.mapper.EssayQuestionMapper;
-import com.bangexam.bangexam.model.EssayQuestion;
 import com.bangexam.bangexam.model.ExamPaper;
-import com.bangexam.bangexam.repository.EssayQuestionRepository;
 import com.bangexam.bangexam.service.PaperService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,29 +16,7 @@ import java.util.List;
 public class BangexamApplicationTests {
 
     @Autowired
-    private EssayQuestionRepository essayQuestionRepository;
-
-    @Autowired
-    private EssayQuestionMapper essayQuestionMapper;
-
-    @Autowired
     private PaperService paperService;
-
-    @Test
-    public void contextLoads() {
-        List<EssayQuestion> lists = essayQuestionRepository.findAll();
-        for (EssayQuestion list : lists) {
-            System.out.println("EssayQuestionRepository:" + list.toString());
-        }
-    }
-
-    @Test
-    public void essayQuestionTest() {
-        List<EssayQuestion> lists = essayQuestionMapper.findAllEssayQuestion();
-        for (EssayQuestion list : lists) {
-            System.out.println("essayQuestionMapper:" + list.toString());
-        }
-    }
 
     @Test
     public void paperPageTest() {
