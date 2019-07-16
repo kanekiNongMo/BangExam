@@ -27,42 +27,25 @@
 
     <select id="getQuestionByQuestionNo" parameterType="Integer" resultType="com.bangexam.bangexam.model.Question">
         select
-        *
+        <include refid="Base_Column_List_one"/>
         from question where question_no = #{questionNo}
     </select>
 
-    <update id="updateQuestion" parameterType="com.bangexam.bangexam.model.Question">
-        update question ep
-        <set>
-            <if test="questionInfo != null">
-                question_info = #{questionInfo},
-            </if>
-            <if test="majorType != null">
-                major_type = #{majorType},
-            </if>
-            <if test="type != null">
-                type = #{type},
-            </if>
-            <if test="optionA != null">
-                option_a = #{optionA},
-            </if>
-            <if test="optionB != null">
-                option_b = #{optionB},
-            </if>
-            <if test="optionC != null">
-                option_c = #{optionC},
-            </if>
-            <if test="optionD != null">
-                option_d = #{optionD},
-            </if>
-            <if test="answer != null">
-                answer = #{answer},
-            </if>
-            <if test="answerExplain != null">
-                answer_explain = #{answerExplain},
-            </if>
-        </set>
-        where ep.question_no = #{questionNo}
-    </update>
+    <!--<update id="updatePaper" parameterType="com.bangexam.bangexam.model.ExamPaper">-->
+        <!--update exam_paper ep-->
+        <!--<set>-->
+            <!--<if test="paperName != null">-->
+                <!--paper_name = #{paperName},-->
+            <!--</if>-->
+            <!--<if test="majorType != null">-->
+                <!--major_type = #{majorType},-->
+            <!--</if>-->
+            <!--<if test="status != null">-->
+                <!--status = #{status},-->
+            <!--</if>-->
+            <!--update_time = now()-->
+        <!--</set>-->
+        <!--where ep.paper_no = #{paperNo}-->
+    <!--</update>-->
 
 </mapper>
