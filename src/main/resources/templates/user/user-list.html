@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>用户管理</title>
     <header th:replace="header::html"></header>
 </head>
 <body>
@@ -35,7 +35,8 @@
 
                 <div class="layui-card-header">
                     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','/user/add')" permission="sys:user:add"><i class="layui-icon"></i>添加用户</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','/user/add',600,300)"><i
+                            class="layui-icon"></i>添加用户</button>
                 </div>
 
                 <div class="layui-card-body ">
@@ -44,7 +45,6 @@
 
                 <div class="layui-card-body ">
                     <script type="text/html" id="barDemo">
-                        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
                     </script>
                 </div>
@@ -78,6 +78,62 @@
                     ,{title:'操作', toolbar: '#barDemo' }
                 ]
             ]
+        });
+
+        //搜索监听提交
+        form.on('submit(search)', function(data){
+            var username = data.field.username;
+            table.render({
+                elem: '#table'
+                ,url: '/user/findUserByFuzzyUserName' //数据接口
+                ,page: true //开启分页
+                ,where:{
+                    "username":username
+                }
+                ,response: {
+                    countName: 'count', //规定数据总数的字段名称，默认：count
+                    dataName: 'datas' //规定数据列表的字段名称，默认：data
+                }
+                ,cols: [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'id', title: 'ID', sort: true}
+                        ,{field: 'username', title: '用户名'}
+                        ,{field: 'status', title: '权限', templet: function(d){
+                            return d.status == '1' ? '是' : '否';
+                        }}
+                        ,{title:'操作', toolbar: '#barDemo' }
+                    ]
+                ]
+            });
+            return false;
+        });
+
+        //监听工具条--删除与编辑
+        table.on('tool(member)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        url:"/user/delete",
+                        type:"GET",
+                        data:{id:data.id},
+                        dataType:'json',
+                        success:function(result){
+                            layer.alert("删除成功", {icon: 1},function (index1) {
+                                layer.close(index1);
+                                //对整个窗口进行刷新
+                                // xadmin.father_reload();
+                                //对表进行刷新
+                                table.reload('table');
+                            });
+                        },
+                    });
+
+                });
+            } else if(obj.event === 'edit'){
+                xadmin.open('编辑用户信息','/user/edit/?id='+data.id , 600,300);
+            }
         });
 
 

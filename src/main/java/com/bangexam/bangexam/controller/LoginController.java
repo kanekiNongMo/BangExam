@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author kaneki
@@ -35,7 +35,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(User user, HttpServletResponse response) {
+    public String login(Model model, User user, HttpServletResponse response, HttpSession session) {
         User user1 = userService.findByUsernameAndPassword(user);
         if (user1 != null) {
             String token = "user";
@@ -43,6 +43,7 @@ public class LoginController {
             cookie.setMaxAge(3600);
             cookie.setPath("/");
             response.addCookie(cookie);
+            session.setAttribute("id",user1.getId());
             return "index";
         }
         return "login";

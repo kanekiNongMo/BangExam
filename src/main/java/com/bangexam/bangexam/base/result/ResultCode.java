@@ -13,7 +13,8 @@ public enum ResultCode {
     FAIL(500, "失败"),
     USER_LOGIN_USERNAME_ERROR(500201, "登录失败，用户名不存在，请重新输入"),
     USER_LOGIN_PASSWORD_ERROR(500202, "登录失败，密码错误，请重新输入"),
-    IP_TIMEOUT(500105, "你的请求过于频繁，请1分钟后再试。");
+    IP_TIMEOUT(500105, "你的请求过于频繁，请1分钟后再试。"),
+    USERNAME_REPEAT(5000100,"用户名已存在"),;
 
     private Integer code;
     private String message;
