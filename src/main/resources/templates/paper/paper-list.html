@@ -42,7 +42,8 @@
     </div>
 </div>
 <script type="text/html" id="switchTpl">
-    <input type="checkbox" name="status" value="0" lay-skin="switch" lay-text="发布|取消" lay-filter="status" >
+    <input  type="checkbox" name="status" value="{{d.status}}" lay-skin="switch" lay-text="发布|取消"
+           lay-filter="status" {{d.status == 1 ? 'checked' : ''}} / >
 </script>
 </body>
 </html>
@@ -105,14 +106,34 @@
                     },
                     {field: 'createTime', title: '创建时间', sort: true},
                     {field: 'updateTime', title: '修改时间', sort: true},
-                    {field:'status', title:'是否发布', width:85, templet: '#switchTpl', unresize: true},
+                    {field: 'status', title: '是否发布', width: 100, templet: '#switchTpl', unresize: true},
                     {fixed: 'right', title: '操作', minWidth: 140, toolbar: '#barDemo'}
                 ]
             ]
         });
         //监听性别操作
-        form.on('switch(status)', function(obj){
-            layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+        form.on('switch(status)', function (obj) {
+            var status = this.value;
+            status === 0 ? status = 1 : status = 0;
+            layer.confirm('确定发布?', function () {
+                $.ajax({
+                    url: "/paper/edit",
+                    type: 'GET',
+                    data: {paperNo: data.paperNo, status: status},
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result.code === 500) {
+                            layer.alert(result.msg);
+                        } else {
+                            layer.alert("发布成功", {icon: 1}, function (index) {
+                                layer.close(index);
+                                xadmin.father_reload();
+                                //  table.reload("table")
+                            })
+                        }
+                    }
+                });
+            });
         });
     });
 </script>

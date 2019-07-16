@@ -37,4 +37,5 @@ public class PaperServiceImpl implements PaperService {
     public Result<ExamPaper> updatePaper(ExamPaper examPaper) {
         return examPaperMapper.updatePaper(examPaper) > 0 ? Result.success() : Result.failure();
     }
+
 }

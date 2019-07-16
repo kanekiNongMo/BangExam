@@ -44,6 +44,6 @@ public class ExamPaper implements Serializable {
     private String updateTime;
 
     @Column(name = "status")
-    private String status;
+    private Integer status;
 
 }
