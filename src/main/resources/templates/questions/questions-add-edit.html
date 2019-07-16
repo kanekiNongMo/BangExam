@@ -9,6 +9,7 @@
 <div class="layui-fluid">
     <div class="layui-row">
         <form class="layui-form">
+            <input type="hidden" name="questionNo" id="questionNo" th:value="${question.questionNo}">
             <div class="layui-form-item">
                 <label  class="layui-form-label">
                     <span class="x-red">*</span>题目
@@ -28,8 +29,7 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="aOption" th:value="${question.optionA}"
-                           name="optionA" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input">
+                           name="optionA" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red"></span>
@@ -42,8 +42,7 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="bOption" th:value="${question.optionB}"
-                           name="optionB" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input">
+                           name="optionB" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red"></span>
@@ -56,8 +55,7 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="cOption" th:value="${question.optionC}"
-                           name="optionC" required="" lay-verify="required"
-                           autocomplete="off" class="layui-input">
+                           name="optionC" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red"></span>
@@ -70,43 +68,22 @@
                 </label>
                 <div class="layui-input-inline">
                     <input type="text" id="dOption" th:value="${question.optionD}"
-                           name="optionD" required="" lay-verify="required"
+                           name="optionD" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red"></span>
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                    <span class="x-red">*</span>答案:
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="answer" th:value="${question.answer}"
+                           name="answer" required="" lay-verify="required"
                            autocomplete="off" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red"></span>
-                </div>
-            </div>
-
-
-            <div class="layui-form-item">
-                <label  class="layui-form-label">
-                    答案:
-                </label>
-                <div class="layui-input-inline">
-                    A<input type="checkbox" id="answerA" value="A"
-                            name="answer" class="layui-input">
-                    B<input type="checkbox" id="answerB" value="B"
-                            name="answer" class="layui-input"> <br>
-                    C<input type="checkbox" id="answerC" value="C"
-                            name="answer" class="layui-input">
-                    D<input type="checkbox" id="answerD" value="D"
-                            name="answer" class="layui-input">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red"></span>
-                </div>
-            </div>
-
-            <div class="layui-form-item">
-                <label  class="layui-form-label">
-                    填空题答案:
-                </label>
-                <div class="layui-input-inline">
-
-                    <textarea id="tktda" th:value="${question.answer}"
-                              name="answer" required="" lay-verify="required"
-                              autocomplete="off" class="layui-textarea"></textarea>
                 </div>
                 <div class="layui-form-mid layui-word-aux">
                     <span class="x-red"></span>
@@ -135,10 +112,10 @@
                 <div class="layui-input-inline">
                     <select name="type" lay-filter="type" required="required">
                         <option selected="selected" value=""></option>
-                        <option value="1">判断题</option>
-                        <option value="2">单选题</option>
-                        <option value="3">多选题</option>
-                        <option value="4">填空题</option>
+                        <option th:selected="${question.type} == 1" value="1">判断题</option>
+                        <option th:selected="${question.type} == 2" value="2">单选题</option>
+                        <option th:selected="${question.type} == 3" value="3">多选题</option>
+                        <option th:selected="${question.type} == 4" value="4">填空题</option>
                     </select>
                 </div>
             </div>
@@ -183,7 +160,7 @@
                 isUpdate = true;
             }
             $.ajax({
-                url: isUpdate ? "/questions/edit" : "/questions/adds",
+                url: "/questions/edit",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data.field),
@@ -192,7 +169,7 @@
                     if (result.code === 500) {
                         layer.msg(result.msg);
                     } else {
-                        layer.alert("添加成功", {icon: 6}, function () {
+                        layer.alert("修改成功", {icon: 6}, function () {
                             layer.close();
                             xadmin.father_reload();
                         });

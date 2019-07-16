@@ -2,7 +2,6 @@ package com.bangexam.bangexam.service.impl;
 
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.mapper.QuestionMapper;
-import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public Result<Question> saveQuestion(Question question) {
-        System.out.println(question);
         return questionMapper.saveQuestion(question) > 0 ? Result.success() : Result.failure();
     }
 
@@ -37,7 +35,16 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Result<Question> getAllQuestionByPage(Integer offset, Integer limit) {
-        System.out.println(offset + "---------------" + limit);
         return Result.success(questionMapper.countAllPapers(), questionMapper.getAllQuestionByPage(offset, limit));
+    }
+
+    @Override
+    public Result<Question> updateQuestion(Question question) {
+        return questionMapper.updateQuestion(question) > 0 ? Result.success() : Result.failure();
+    }
+
+    @Override
+    public int deleteQuestion(Integer questionNo) {
+        return questionMapper.deleteQuestion(questionNo);
     }
 }

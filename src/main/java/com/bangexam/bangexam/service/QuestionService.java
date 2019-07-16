@@ -10,4 +10,8 @@ public interface QuestionService {
     Question getQuestionByQuestionNo(Integer questionNo);
 
     Result<Question> getAllQuestionByPage(Integer offset, Integer limit);
+
+    Result<Question> updateQuestion(Question question);
+
+    int deleteQuestion(Integer questionNo);
 }
