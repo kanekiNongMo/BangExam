@@ -2,11 +2,13 @@ package com.bangexam.bangexam.mapper;
 
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.ExamPaper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author kaneki
@@ -54,4 +56,29 @@ public interface ExamPaperMapper {
      * @return 成功执行行数
      */
     int updatePaper(ExamPaper examPaper);
+
+    /**
+     * 删除试卷
+     *
+     * @param paperNo 试卷编号
+     * @return 成功执行行数
+     */
+    @Delete("delete from exam_paper where paper_no = #{paperNo}")
+    int deletePaper(Integer paperNo);
+
+    /**
+     * 试卷关联题目
+     *
+     * @param map map
+     * @return 成功执行行数
+     */
+    int relatedQuestions(Map<String, Object> map);
+
+    /**
+     * 删除试卷关联的考题
+     *
+     * @param paperId 试卷编号
+     */
+    @Delete("delete from paper_question where paper_id = #{paperId}")
+    void deletePaperQuestions(Integer paperId);
 }

@@ -41,4 +41,20 @@ public interface PaperService {
      */
     Result<ExamPaper> updatePaper(ExamPaper examPaper);
 
+    /**
+     * 删除试卷信息
+     *
+     * @param paperNo 试卷编号
+     * @return 返回数据
+     */
+    Result<ExamPaper> deletePaper(Integer paperNo);
+
+    /**
+     * 试卷关联题目
+     *
+     * @param paperId     试卷编号
+     * @param questionIds 题目编号数组
+     * @return 成功执行行数
+     */
+    Result<ExamPaper> relatedQuestions(Integer paperId, int[] questionIds);
 }

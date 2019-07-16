@@ -33,7 +33,7 @@
                     <table class="layui-hide" id="table" lay-filter="member"></table>
                     <script type="text/html" id="barDemo">
                         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-                        <a class="layui-btn layui-btn-xs" lay-event="relate ">关联题目</a>
+                        <a class="layui-btn layui-btn-xs" lay-event="relate">关联题目</a>
                         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
                     </script>
                 </div>
@@ -42,8 +42,8 @@
     </div>
 </div>
 <script type="text/html" id="switchTpl">
-    <input  type="checkbox" name="status" value="{{d.status}}" lay-skin="switch" lay-text="发布|取消"
-           lay-filter="status" {{d.status == 1 ? 'checked' : ''}} / >
+    <input type="checkbox" name="status" value="{{d.paperNo}}" lay-skin="switch" lay-text="发布|取消"
+           lay-filter="status" {{d.status== 1 ? 'checked' : ''}} / >
 </script>
 </body>
 </html>
@@ -51,33 +51,6 @@
     layui.use(['table', 'form'], function () {
         var form = layui.form;
         var table = layui.table;
-
-        table.on('tool(member)', function (obj) {
-            var data = obj.data;
-            if (obj.event === 'del') {
-                layer.confirm('确定删除?', function () {
-                    $.ajax({
-                        url: "/paper/delete",
-                        type: 'GET',
-                        data: {paperNo: data.paperNo},
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.code === 500) {
-                                layer.alert(result.msg);
-                            } else {
-                                layer.alert("删除成功", {icon: 1}, function (index) {
-                                    layer.close(index);
-                                    // xadmin.father_reload();
-                                    table.reload("table")
-                                })
-                            }
-                        }
-                    });
-                });
-            } else if (obj.event === 'edit') {
-                xadmin.open('编辑试卷信息', '/paper/edit?paperNo=' + data.paperNo, 450, 340);
-            }
-        });
 
         table.render({
             elem: '#table'
@@ -111,29 +84,60 @@
                 ]
             ]
         });
-        //监听性别操作
+
         form.on('switch(status)', function (obj) {
-            var status = this.value;
-            status === 0 ? status = 1 : status = 0;
-            layer.confirm('确定发布?', function () {
-                $.ajax({
-                    url: "/paper/edit",
-                    type: 'GET',
-                    data: {paperNo: data.paperNo, status: status},
-                    dataType: 'json',
-                    success: function (result) {
-                        if (result.code === 500) {
-                            layer.alert(result.msg);
-                        } else {
-                            layer.alert("发布成功", {icon: 1}, function (index) {
-                                layer.close(index);
-                                xadmin.father_reload();
-                                //  table.reload("table")
-                            })
-                        }
+            var paperNo = this.value;
+            var status = obj.elem.checked;
+            status ? status = 1 : status = 0;
+            $.ajax({
+                url: "/paper/edit",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({paperNo: paperNo, status: status}),
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 500) {
+                        layer.alert(result.msg);
+                        table.reload("table");
+                    } else {
+                        layer.alert("操作成功", {icon: 1}, function (index) {
+                            // xadmin.father_reload();
+                            layer.close(index);
+                            table.reload("table");
+                        });
                     }
-                });
+                }
             });
+            return false;
+        });
+
+        table.on('tool(member)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('确定删除?', function () {
+                    $.ajax({
+                        url: "/paper/delete",
+                        type: 'GET',
+                        data: {paperNo: data.paperNo},
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.code === 500) {
+                                layer.alert(result.msg);
+                            } else {
+                                layer.alert("删除成功", {icon: 1}, function (index) {
+                                    layer.close(index);
+                                    // xadmin.father_reload();
+                                    table.reload("table")
+                                })
+                            }
+                        }
+                    });
+                });
+            } else if (obj.event === 'edit') {
+                xadmin.open('编辑试卷信息', '/paper/edit?paperNo=' + data.paperNo, 450, 340);
+            }else if (obj.event === 'relate') {
+                xadmin.open('关联考题', '/paper/relate?paperNo=' + data.paperNo);
+            }
         });
     });
 </script>

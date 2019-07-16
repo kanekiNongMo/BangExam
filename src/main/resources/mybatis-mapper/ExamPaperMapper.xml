@@ -43,4 +43,11 @@
         where ep.paper_no = #{paperNo}
     </update>
 
+    <insert id="relatedQuestions" useGeneratedKeys="true" parameterType="map" keyColumn="paper_question_id">
+        insert into paper_question (paper_id, question_id) values
+        <foreach collection="questionIds" index="index" item="questionId" separator=",">
+            (#{paperId} , #{questionId})
+        </foreach>
+    </insert>
+
 </mapper>

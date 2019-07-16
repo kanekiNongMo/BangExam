@@ -2,10 +2,262 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>关联问题</title>
+    <title>关联题目</title>
     <header th:replace="header::html"></header>
 </head>
 <body>
-
+<input type="hidden" th:value="${examPaper.paperNo}" id="paperNo">
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <label>
+                                考卷类型：
+                            </label>
+                            <div class="layui-input-inline">
+                                <select name="majorType" id="majorType"  lay-filter="majorType" required="required">
+                                    <option selected="selected" value=""></option>
+                                    <option value="1">JAVA</option>
+                                    <option value="2">测试</option>
+                                </select>
+                            </div>
+                            <label>
+                                题目类型：
+                            </label>
+                            <div class="layui-input-inline">
+                                <select name="type" id="type"  lay-filter="type" required="required">
+                                    <option selected="selected" value=""></option>
+                                    <option value="1">判断题</option>
+                                    <option value="2">单选题</option>
+                                    <option value="3">多选题</option>
+                                    <option value="4">填空题</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="table" lay-filter="member"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-danger"
+                lay-event="getCheckData">确定关联
+        </button>
+    </div>
+</script>
+<script>
+    layui.use(['table', 'form'], function () {
+        var form = layui.form;
+        var table = layui.table;
+
+        form.on("select(majorType)", function(data){
+            var type = $("#type").val();
+            var majorType = data.value;
+            console.log(type);
+            console.log(majorType);
+            table.render({
+                elem: '#table'
+                , url: '/questions/search'
+                , toolbar: '#toolbarDemo'
+                , page: true
+                , cellMinWidth: 50
+                , where: {
+                    "majorType": majorType,
+                    "type": type
+                }
+                , response: {
+                    countName: 'count',
+                    dataName: 'datas'
+                }
+                , cols: [
+                    [
+                        {type: 'checkbox'},
+                        {field: 'questionNo', title: '题目编号', sort: true},
+                        {
+                            field: 'type', title: '题型', templet: function (data) {
+                                if (data.type === 1) {
+                                    return "判断题"
+                                } else if (data.type === 2) {
+                                    return "单选题"
+                                } else if (data.type === 3) {
+                                    return "多选题"
+                                } else {
+                                    return "填空题"
+                                }
+                            }
+                        },
+                        {
+                            field: 'majorType', title: '技术类型', templet: function (data) {
+                                if (data.majorType === 1) {
+                                    return "Java"
+                                } else if (data.majorType === 2) {
+                                    return "测试"
+                                } else {
+                                    return "未知"
+                                }
+                            }
+                        },
+                        {field: 'questionInfo', title: '题目名', sort: true},
+                        {field: 'answer', title: '答案', sort: true},
+                        {field: 'answerExplain', title: '解析', sort: true}
+                    ]
+                ]
+            });
+            return false;
+        });
+
+        form.on("select(type)", function(data){
+            var majorType = $("#majorType").val();
+            var type = data.value;
+            console.log(majorType);
+            console.log(type);
+            table.render({
+                elem: '#table'
+                , url: '/questions/search'
+                , toolbar: '#toolbarDemo'
+                , page: true
+                , cellMinWidth: 50
+                , where: {
+                    "majorType": majorType,
+                    "type": type
+                }
+                , response: {
+                    countName: 'count',
+                    dataName: 'datas'
+                }
+                , cols: [
+                    [
+                        {type: 'checkbox'},
+                        {field: 'questionNo', title: '题目编号', sort: true},
+                        {
+                            field: 'type', title: '题型', templet: function (data) {
+                                if (data.type === 1) {
+                                    return "判断题"
+                                } else if (data.type === 2) {
+                                    return "单选题"
+                                } else if (data.type === 3) {
+                                    return "多选题"
+                                } else {
+                                    return "填空题"
+                                }
+                            }
+                        },
+                        {
+                            field: 'majorType', title: '技术类型', templet: function (data) {
+                                if (data.majorType === 1) {
+                                    return "Java"
+                                } else if (data.majorType === 2) {
+                                    return "测试"
+                                } else {
+                                    return "未知"
+                                }
+                            }
+                        },
+                        {field: 'questionInfo', title: '题目名', sort: true},
+                        {field: 'answer', title: '答案', sort: true},
+                        {field: 'answerExplain', title: '解析', sort: true}
+                    ]
+                ]
+            });
+            return false;
+
+        });
+
+        table.render({
+            elem: '#table'
+            , url: '/questions/list'
+            , toolbar: '#toolbarDemo'
+            , page: true
+            , cellMinWidth: 50
+            , response: {
+                countName: 'count',
+                dataName: 'datas'
+            }
+            , cols: [
+                [
+                    {type: 'checkbox'},
+                    {field: 'questionNo', title: '题目编号', sort: true},
+                    {
+                        field: 'type', title: '题型', templet: function (data) {
+                            if (data.type === 1) {
+                                return "判断题"
+                            } else if (data.type === 2) {
+                                return "单选题"
+                            } else if (data.type === 3) {
+                                return "多选题"
+                            } else {
+                                return "填空题"
+                            }
+                        }
+                    },
+                    {
+                        field: 'majorType', title: '技术类型', templet: function (data) {
+                            if (data.majorType === 1) {
+                                return "Java"
+                            } else if (data.majorType === 2) {
+                                return "测试"
+                            } else {
+                                return "未知"
+                            }
+                        }
+                    },
+                    {field: 'questionInfo', title: '题目名', sort: true},
+                    {field: 'answer', title: '答案', sort: true},
+                    {field: 'answerExplain', title: '解析', sort: true}
+                ]
+            ]
+        });
+
+        table.on('toolbar(member)', function (obj) {
+            console.log(obj.config.id);
+            var checkStatus = table.checkStatus(obj.config.id);
+            var data = checkStatus.data;
+            var paperNo = $("#paperNo").val();
+            console.log("paperNo:"+paperNo);
+            console.log(checkStatus);
+            console.log(data);
+            if (!data.length > 0) {
+                layer.msg('请至少选择一项', {icon: 1});
+                return;
+            }
+            var questionIds = [];
+            data.forEach(function (j, i) {
+                questionIds.push(j.questionNo);
+            });
+            console.log(questionIds);
+            if (obj.event === 'getCheckData') {
+                layer.confirm('确定关联?', function () {
+                    $.ajax({
+                        url: "/paper/relate",
+                        type: 'POST',
+                        data: {"paperNo" : paperNo, "questionIds" : questionIds},
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.code === 500) {
+                                layer.alert(result.msg);
+                                table.reload("table");
+                            } else {
+                                layer.alert("关联成功", {icon: 6}, function (index) {
+                                    layer.close(index);
+                                    // xadmin.father_reload();
+                                    table.reload("table");
+                                });
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+        });
+    });
+</script>

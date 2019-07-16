@@ -73,4 +73,12 @@ public class QuestionController {
         return examPaper == null ? Result.failure() : paperService.updatePaper(examPaper);
     }
 
+
+    @GetMapping("/search")
+    @ResponseBody
+    public Result<Question> search(PageTableRequest tableRequest, Integer majorType, Integer type) {
+        tableRequest.countOffset();
+        return questionService.search(majorType, type, tableRequest.getOffset(), tableRequest.getLimit());
+    }
+
 }
