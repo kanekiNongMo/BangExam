@@ -24,10 +24,6 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    @Autowired
-    private PaperService paperService;
-
-
     @GetMapping("/list")
     @ResponseBody
     public Result<Question> getQuestions(PageTableRequest pageRequest) {
@@ -39,7 +35,7 @@ public class QuestionController {
     /**
      * 打开添加考题页面
      */
-    @GetMapping("/add" )
+    @GetMapping("/add")
     public String addQuestion(Model model) {
         model.addAttribute(new Question());
         return "questions/questions-add-edit";
@@ -48,29 +44,41 @@ public class QuestionController {
 
     /**
      * 添加考题
+     *
      * @param question
      * @return
      */
-    @PostMapping("/adds")
+    @PostMapping("/add")
     @ResponseBody
     public Result<Question> saveQuestion(@RequestBody Question question) {
-        System.out.println("---"+question);
         return question == null ? Result.failure() : questionService.saveQuestion(question);
     }
 
     @GetMapping("/edit")
-    public String editPaper(Model model, Question question) {
+    public String editQuestion(Model model, Question question) {
         if (question == null) {
             return "null";
         }
         model.addAttribute(questionService.getQuestionByQuestionNo(question.getQuestionNo()));
-        return "paper/paper-add-edit";
+        return "questions/questions-add-edit";
     }
 
     @PostMapping("/edit")
     @ResponseBody
-    public Result<ExamPaper> updateQuestion(ExamPaper examPaper) {
-        return examPaper == null ? Result.failure() : paperService.updatePaper(examPaper);
+    public Result<Question> updateQuestion(@RequestBody Question question) {
+        return question == null ? Result.failure() : questionService.updateQuestion(question);
+    }
+
+    @GetMapping("/delete")
+    @ResponseBody
+    public Result deleteQuestion(Question question) {
+        System.out.println(question);
+        int count = questionService.deleteQuestion(question.getQuestionNo());
+        if (count > 0) {
+            return Result.success();
+        } else {
+            return Result.failure();
+        }
     }
 
 

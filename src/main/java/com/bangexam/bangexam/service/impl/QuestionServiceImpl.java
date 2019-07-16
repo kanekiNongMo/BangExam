@@ -40,9 +40,4 @@ public class QuestionServiceImpl implements QuestionService {
         System.out.println(offset + "---------------" + limit);
         return Result.success(questionMapper.countAllPapers(), questionMapper.getAllQuestionByPage(offset, limit));
     }
-
-    @Override
-    public Result<Question> search(Integer majorType, Integer type, Integer offset, Integer limit) {
-        return Result.success(questionMapper.countQuestionByMajorTypeAndType(majorType, type), questionMapper.getQuestionByMajorTypeAndType(majorType, type, offset, limit));
-    }
 }

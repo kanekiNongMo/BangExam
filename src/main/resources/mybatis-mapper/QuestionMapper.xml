@@ -3,26 +3,25 @@
 <mapper namespace="com.bangexam.bangexam.mapper.QuestionMapper">
 
     <sql id="Base_Column_List_one">
-        question_no as questionNo, type as type, major_type as majorType, question_info as questionInfo,option_a  as optionA,option_b  as optionB,option_c  as optionC, option_d as optionD, answer as answer,answer_explain  as answerExplain
+      type as type, majorType as major_type, questionInfo as question_info, optionA as option_a, optionB as option_b, optionC as option_c, optionD as option_d, answer as answer, answerExplain as answer_explain
     </sql>
 
     <sql id="Base_Column_List_two">
-        type, major_type, question_info, option_a, option_b, option_c, option_d, answer, answer_explain
+       type, major_type, question_info, option_a, option_b, option_c, option_d, answer, answer_explain
     </sql>
 
 
     <select id="getAllQuestionByPage" resultType="com.bangexam.bangexam.model.Question">
         select
         *
-        <!--&#45;&#45;         <include refid="Base_Column_List_one"/>-->
+<!--&#45;&#45;         <include refid="Base_Column_List_one"/>-->
         from question q order by q.question_no limit #{startPosition}, #{limit}
     </select>
 
     <insert id="saveQuestion" parameterType="com.bangexam.bangexam.model.Question" useGeneratedKeys="true"
             keyProperty="questionNo" keyColumn="question_no">
         insert into question(<include refid="Base_Column_List_two"/>)
-        values(#{type}, #{majorType}, #{questionInfo}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{answer},
-        #{answerExplain})
+        values(#{type}, #{majorType}, #{questionInfo}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{answer}, #{answerExplain})
     </insert>
 
 
@@ -33,41 +32,20 @@
     </select>
 
     <!--<update id="updatePaper" parameterType="com.bangexam.bangexam.model.ExamPaper">-->
-    <!--update exam_paper ep-->
-    <!--<set>-->
-    <!--<if test="paperName != null">-->
-    <!--paper_name = #{paperName},-->
-    <!--</if>-->
-    <!--<if test="majorType != null">-->
-    <!--major_type = #{majorType},-->
-    <!--</if>-->
-    <!--<if test="status != null">-->
-    <!--status = #{status},-->
-    <!--</if>-->
-    <!--update_time = now()-->
-    <!--</set>-->
-    <!--where ep.paper_no = #{paperNo}-->
+        <!--update exam_paper ep-->
+        <!--<set>-->
+            <!--<if test="paperName != null">-->
+                <!--paper_name = #{paperName},-->
+            <!--</if>-->
+            <!--<if test="majorType != null">-->
+                <!--major_type = #{majorType},-->
+            <!--</if>-->
+            <!--<if test="status != null">-->
+                <!--status = #{status},-->
+            <!--</if>-->
+            <!--update_time = now()-->
+        <!--</set>-->
+        <!--where ep.paper_no = #{paperNo}-->
     <!--</update>-->
-    <sql id="Type_MajorType">
-        <where>
-            <if test="majorType != null">
-                major_type = #{majorType}
-            </if>
-            <if test="type != null">
-                AND type = #{type}
-            </if>
-        </where>
-    </sql>
-
-    <select id="countQuestionByMajorTypeAndType" resultType="Integer">
-        select count(*) from question <include refid="Type_MajorType"/>
-
-    </select>
-
-    <select id="getQuestionByMajorTypeAndType" resultType="com.bangexam.bangexam.model.Question">
-        select
-        <include refid="Base_Column_List_one"/>
-        from question <include refid="Type_MajorType"/>
-    </select>
 
 </mapper>
