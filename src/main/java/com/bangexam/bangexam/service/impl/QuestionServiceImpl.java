@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class QuestionServiceImpl implements QuestionService {
@@ -38,13 +36,18 @@ public class QuestionServiceImpl implements QuestionService {
         return Result.success(questionMapper.countAllPapers(), questionMapper.getAllQuestionByPage(offset, limit));
     }
 
-    @Override
-    public Result<Question> updateQuestion(Question question) {
-        return questionMapper.updateQuestion(question) > 0 ? Result.success() : Result.failure();
-    }
+//    @Override
+//    public Result<Question> updateQuestion(Question question) {
+//        return questionMapper.updateQuestion(question) > 0 ? Result.success() : Result.failure();
+//    }
+//
+//    @Override
+//    public int deleteQuestion(Integer questionNo) {
+//        return questionMapper.deleteQuestion(questionNo);
+//    }
 
     @Override
-    public int deleteQuestion(Integer questionNo) {
-        return questionMapper.deleteQuestion(questionNo);
+    public Result<Question> search(Integer majorType, Integer type, Integer offset, Integer limit) {
+        return Result.success(questionMapper.countQuestionByMajorTypeAndType(majorType, type), questionMapper.getQuestionByMajorTypeAndType(majorType, type, offset, limit));
     }
 }

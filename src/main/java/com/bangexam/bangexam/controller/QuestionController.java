@@ -2,17 +2,12 @@ package com.bangexam.bangexam.controller;
 
 import com.bangexam.bangexam.base.result.PageTableRequest;
 import com.bangexam.bangexam.base.result.Result;
-import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
-import com.bangexam.bangexam.service.PaperService;
 import com.bangexam.bangexam.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.sound.midi.Soundbank;
-import java.sql.SQLOutput;
 
 /**
  * @author tyj
@@ -63,22 +58,30 @@ public class QuestionController {
         return "questions/questions-add-edit";
     }
 
-    @PostMapping("/edit")
-    @ResponseBody
-    public Result<Question> updateQuestion(@RequestBody Question question) {
-        return question == null ? Result.failure() : questionService.updateQuestion(question);
-    }
 
-    @GetMapping("/delete")
+//    @PostMapping("/edit")
+//    @ResponseBody
+//    public Result<Question> updateQuestion(@RequestBody Question question) {
+//        return question == null ? Result.failure() : questionService.updateQuestion(question);
+//    }
+//
+//    @GetMapping("/delete")
+//    @ResponseBody
+//    public Result deleteQuestion(Question question) {
+//        System.out.println(question);
+//        int count = questionService.deleteQuestion(question.getQuestionNo());
+//        if (count > 0) {
+//            return Result.success();
+//        } else {
+//            return Result.failure();
+//        }
+//    }
+
+    @GetMapping("/search")
     @ResponseBody
-    public Result deleteQuestion(Question question) {
-        System.out.println(question);
-        int count = questionService.deleteQuestion(question.getQuestionNo());
-        if (count > 0) {
-            return Result.success();
-        } else {
-            return Result.failure();
-        }
+    public Result<Question> search(PageTableRequest tableRequest, Integer majorType, Integer type) {
+        tableRequest.countOffset();
+        return questionService.search(majorType, type, tableRequest.getOffset(), tableRequest.getLimit());
     }
 
 }
