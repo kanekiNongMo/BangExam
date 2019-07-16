@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.sound.midi.Soundbank;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLOutput;
+import java.util.List;
 
 /**
  * @author tyj
@@ -38,7 +42,7 @@ public class QuestionController {
     @GetMapping("/add")
     public String addQuestion(Model model) {
         model.addAttribute(new Question());
-        return "questions/questions-add-edit";
+        return "questions/questions-add";
     }
 
 
@@ -81,4 +85,36 @@ public class QuestionController {
         }
     }
 
+
+    @GetMapping("/upload")
+    public String upQuestion(Model model) {
+        model.addAttribute(new Question());
+        return "questions/questions-up";
+    }
+
+
+    /**
+     * 批量上传考题
+     * @param file
+     * @return
+     */
+    @PostMapping("/upload")
+    @ResponseBody
+    public Result uploadQuestion(@RequestParam("file")MultipartFile file) {
+        if (file.isEmpty()) {
+            return Result.failure();
+        }
+        String fileName = file.getOriginalFilename();
+        String filePath = "questions/";
+        File dest = new File(filePath + fileName);
+
+        try {
+            file.transferTo(dest);
+            return Result.success();
+            //return questionService.upQuestions(dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Result.failure();
+    }
 }

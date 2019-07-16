@@ -159,7 +159,7 @@
                 isUpdate = true;
             }
             $.ajax({
-                url: isUpdate ? "/questions/update" : "/questions/add",
+                url:  "/questions/add",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data.field),
