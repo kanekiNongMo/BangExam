@@ -116,7 +116,6 @@ public class QuestionController {
 
         try {
             file.transferTo(dest);
-            // return Result.success();
             return questionService.upQuestions(dest);
         } catch (IOException e) {
             e.printStackTrace();

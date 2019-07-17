@@ -58,7 +58,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Result upQuestions(File dest) {
         List<Question> questions = QuestionUtil.getQuestion(dest);
-        System.out.println(questions);
         return questionMapper.saveQuestions(questions) > 0 ? Result.success() : Result.failure();
     }
 }
