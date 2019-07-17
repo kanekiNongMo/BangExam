@@ -2,6 +2,7 @@ package com.bangexam.bangexam.controller;
 
 import com.bangexam.bangexam.base.result.PageTableRequest;
 import com.bangexam.bangexam.base.result.Result;
+import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,15 @@ public class QuestionController {
         return question == null ? Result.failure() : questionService.saveQuestion(question);
     }
 
+    @GetMapping("/show")
+    public String showQuestion(Model model, Question question) {
+        if (question == null) {
+            return "null";
+        }
+        model.addAttribute(questionService.getQuestionByQuestionNo(question.getQuestionNo()));
+        return "questions/questions-show";
+    }
+
     @GetMapping("/edit")
     public String editQuestion(Model model, Question question) {
         if (question == null) {
@@ -70,6 +80,9 @@ public class QuestionController {
     public Result<Question> updateQuestion(@RequestBody Question question) {
         return question == null ? Result.failure() : questionService.updateQuestion(question);
     }
+
+
+
 
     @GetMapping("/delete")
     @ResponseBody
@@ -90,11 +103,32 @@ public class QuestionController {
         return questionService.search(majorType, type, tableRequest.getOffset(), tableRequest.getLimit());
     }
 
+
+    @GetMapping("/deletes")
+    public String deleteQuestions(Model model) {
+        model.addAttribute(new Question());
+        return "questions/questions-delete-list";
+    }
+
+
+
+    @PostMapping("/deletes")
+    @ResponseBody
+    public Result<Question> deleteQuestions(@RequestParam("questionIds[]") int [] questionIds) {
+
+        System.out.println(questionIds);
+
+        return questionService.deleteQuestions(questionIds);
+    }
+
+
     @GetMapping("/upload")
     public String upQuestion(Model model) {
         model.addAttribute(new Question());
         return "questions/questions-up";
     }
+
+
 
     /**
      * 批量上传考题
