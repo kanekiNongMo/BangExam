@@ -1,6 +1,7 @@
 package com.bangexam.bangexam.mapper;
 
 import com.bangexam.bangexam.model.Question;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -39,4 +40,10 @@ public interface QuestionMapper {
      */
     List<Question> getQuestionByMajorTypeAndType(@Param("majorType") Integer majorType, @Param("type") Integer type, @Param("startPosition") Integer startPosition, @Param("limit") Integer limit);
 
+    int updateQuestion(Question question);
+
+    @Delete("delete from question where question_no = #{questionNo}")
+    int deleteQuestion(Integer questionNo);
+
+    int saveQuestions(List<Question> list);
 }

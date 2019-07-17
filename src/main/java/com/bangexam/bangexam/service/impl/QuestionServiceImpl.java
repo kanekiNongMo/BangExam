@@ -4,9 +4,13 @@ import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.mapper.QuestionMapper;
 import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.QuestionService;
+import com.bangexam.bangexam.util.QuestionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -36,18 +40,25 @@ public class QuestionServiceImpl implements QuestionService {
         return Result.success(questionMapper.countAllPapers(), questionMapper.getAllQuestionByPage(offset, limit));
     }
 
-//    @Override
-//    public Result<Question> updateQuestion(Question question) {
-//        return questionMapper.updateQuestion(question) > 0 ? Result.success() : Result.failure();
-//    }
-//
-//    @Override
-//    public int deleteQuestion(Integer questionNo) {
-//        return questionMapper.deleteQuestion(questionNo);
-//    }
+    @Override
+    public Result<Question> updateQuestion(Question question) {
+        return questionMapper.updateQuestion(question) > 0 ? Result.success() : Result.failure();
+    }
+
+    @Override
+    public int deleteQuestion(Integer questionNo) {
+        return questionMapper.deleteQuestion(questionNo);
+    }
 
     @Override
     public Result<Question> search(Integer majorType, Integer type, Integer offset, Integer limit) {
         return Result.success(questionMapper.countQuestionByMajorTypeAndType(majorType, type), questionMapper.getQuestionByMajorTypeAndType(majorType, type, offset, limit));
+    }
+
+    @Override
+    public Result upQuestions(File dest) {
+        List<Question> questions = QuestionUtil.getQuestion(dest);
+        System.out.println(questions);
+        return questionMapper.saveQuestions(questions) > 0 ? Result.success() : Result.failure();
     }
 }

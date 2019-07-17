@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author tyj
@@ -33,7 +38,7 @@ public class QuestionController {
     @GetMapping("/add")
     public String addQuestion(Model model) {
         model.addAttribute(new Question());
-        return "questions/questions-add-edit";
+        return "questions/questions-add";
     }
 
 
@@ -46,6 +51,7 @@ public class QuestionController {
     @PostMapping("/add")
     @ResponseBody
     public Result<Question> saveQuestion(@RequestBody Question question) {
+        System.out.println(question);
         return question == null ? Result.failure() : questionService.saveQuestion(question);
     }
 
@@ -59,29 +65,63 @@ public class QuestionController {
     }
 
 
-//    @PostMapping("/edit")
-//    @ResponseBody
-//    public Result<Question> updateQuestion(@RequestBody Question question) {
-//        return question == null ? Result.failure() : questionService.updateQuestion(question);
-//    }
-//
-//    @GetMapping("/delete")
-//    @ResponseBody
-//    public Result deleteQuestion(Question question) {
-//        System.out.println(question);
-//        int count = questionService.deleteQuestion(question.getQuestionNo());
-//        if (count > 0) {
-//            return Result.success();
-//        } else {
-//            return Result.failure();
-//        }
-//    }
+    @PostMapping("/edit")
+    @ResponseBody
+    public Result<Question> updateQuestion(@RequestBody Question question) {
+        return question == null ? Result.failure() : questionService.updateQuestion(question);
+    }
+
+    @GetMapping("/delete")
+    @ResponseBody
+    public Result deleteQuestion(Question question) {
+        System.out.println(question);
+        int count = questionService.deleteQuestion(question.getQuestionNo());
+        if (count > 0) {
+            return Result.success();
+        } else {
+            return Result.failure();
+        }
+    }
 
     @GetMapping("/search")
     @ResponseBody
     public Result<Question> search(PageTableRequest tableRequest, Integer majorType, Integer type) {
         tableRequest.countOffset();
         return questionService.search(majorType, type, tableRequest.getOffset(), tableRequest.getLimit());
+    }
+
+    @GetMapping("/upload")
+    public String upQuestion(Model model) {
+        model.addAttribute(new Question());
+        return "questions/questions-up";
+    }
+
+    /**
+     * 批量上传考题
+     * @param file
+     * @return
+     */
+    @PostMapping("/upload")
+    @ResponseBody
+    public Result uploadQuestion(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+
+        if (file.isEmpty()) {
+            return Result.failure();
+        }
+        String fileName = file.getOriginalFilename();
+        String filePath = System.getProperty("user.dir");
+        System.out.println(filePath);
+        File dest = new File(filePath + "/" + fileName);
+        System.out.println(dest);
+
+        try {
+            file.transferTo(dest);
+            // return Result.success();
+            return questionService.upQuestions(dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Result.failure();
     }
 
 }
