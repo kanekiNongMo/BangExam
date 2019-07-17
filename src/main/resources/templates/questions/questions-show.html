@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加试卷</title>
+    <header th:replace="header::html"></header>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row">
+            <input type="hidden" name="questionNo" id="questionNo" th:value="${question.questionNo}">
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                   题目:
+                </label>
+                <label  class="layui-form-label" style="text-align: left">
+                     <span th:text="${question.questionInfo}"
+                           name="questionInfo" ></span>
+                </label>
+            </div>
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                    选项A:
+                </label>
+                <label  class="layui-form-label" style="text-align: left">
+                     <span th:text="${question.optionA}"
+                           name="optionA" ></span>
+                </label>
+            </div>
+
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                    选项B:
+                </label>
+                <label  class="layui-form-label" style="text-align: left">
+                     <span th:text="${question.optionB}"
+                           name="optionB" ></span>
+                </label>
+            </div>
+
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                    选项C:
+                </label>
+
+                <label  class="layui-form-label" style="text-align: left">
+                     <span th:text="${question.optionC}"
+                           name="optionC" ></span>
+                </label>
+
+            </div>
+
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                    选项D:
+                </label>
+                <label  class="layui-form-label" style="text-align: left">
+                     <span th:text="${question.optionD}"
+                           name="optionD" ></span>
+                </label>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                   答案:
+                </label>
+                <label  class="layui-form-label" style="text-align: left">
+                     <span th:text="${question.answer}"
+                           name="answer" ></span>
+                </label>
+            </div>
+
+            <div class="layui-form-item">
+                <label  class="layui-form-label">
+                   答案说明:
+                </label>
+                <label  class="layui-form-label" style="text-align: left">
+                     <span th:text="${question.answerExplain}"
+                           name="answerExplain" ></span>
+                </label>
+
+            </div>
+
+
+    </div>
+</div>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layer', 'laydate'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({});
+
+        //监听提交
+        form.on('submit(save)', function (data) {
+            var isUpdate = false;
+            if (data.field.paperNo && data.field.paperNo.length > 0) {
+                isUpdate = true;
+            }
+            $.ajax({
+                url: "/questions/edit",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data.field),
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code === 500) {
+                        layer.msg(result.msg);
+                    } else {
+                        layer.alert("修改成功", {icon: 6}, function () {
+                            layer.close();
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>

@@ -29,4 +29,6 @@ public interface QuestionService {
     Result<Question> search(Integer majorType, Integer type, Integer offset, Integer limit);
 
     Result upQuestions(File dest);
+
+    Result<Question> deleteQuestions(int[] questionIds);
 }

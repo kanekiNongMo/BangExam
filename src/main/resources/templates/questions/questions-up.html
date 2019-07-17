@@ -6,11 +6,35 @@
     <header th:replace="header::html"></header>
 </head>
 <body>
-<form method="post" action="/questions/upload" enctype="multipart/form-data">
 
-    <input type="file" name="file" id="file" />
-    <input type="submit">
-</form>
+<div class="layui-upload">
+    <button type="button" class="layui-btn layui-btn-normal" id="test8">选择文件</button>
+    <button type="button" class="layui-btn" id="test9">开始上传</button>
+</div>
+
+<script src="//res.layui.com/layui/dist/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+
+        //选完文件后不自动上传
+        var uploadInst = upload.render({
+            elem: '#test8'
+            ,url: '/questions/upload'
+                ,accept: 'file'
+            ,auto: false
+            //,multiple: true
+            ,bindAction: '#test9'
+            ,done: function(res){
+                console.log(res)
+            }
+        });
+
+    });
+</script>
+
 </body>
 
 </html>
