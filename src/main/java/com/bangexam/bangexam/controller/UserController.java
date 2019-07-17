@@ -8,12 +8,11 @@ import com.bangexam.bangexam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -87,5 +86,20 @@ public class UserController {
     @ResponseBody
     public Result<User> editUser(String username, String oldPassword, String newPassword) {
         return userService.newPassword(username, oldPassword, newPassword);
+    }
+
+
+    // 修改密码页面
+    @PostMapping("/delall")
+    @ResponseBody
+    public Result delAllUser(@RequestParam(value = "id[]") Integer[] userid) {
+
+        List<Integer> id = new ArrayList<Integer>();
+
+        for (int i = 0; i<userid.length;i++) {
+            id.add(userid[i]);
+        }
+        System.out.println("---------------"+id);
+        return userid != null ? userService.delAll(id) : Result.failure();
     }
 }

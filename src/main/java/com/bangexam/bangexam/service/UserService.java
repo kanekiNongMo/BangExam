@@ -3,6 +3,8 @@ package com.bangexam.bangexam.service;
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.User;
 
+import java.util.List;
+
 /**
  * @author kaneki
  * @date 2019/7/13 14:24
@@ -45,4 +47,6 @@ public interface UserService {
     User findById(Integer id);
 
     Result<User> newPassword(String username, String oldPassword, String newPassword);
+
+    Result delAll(List<Integer> id);
 }

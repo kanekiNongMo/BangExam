@@ -59,4 +59,6 @@ public interface UserMapper {
     //修改密码
     @Update("update exam_user set password = #{password} where user_id = #{id}")
     int changePassword(@Param("id") Integer id, @Param("password") String newPassword);
+
+    int delAll(List<Integer> id);
 }
