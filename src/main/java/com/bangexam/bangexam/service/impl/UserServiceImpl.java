@@ -8,6 +8,9 @@ import com.bangexam.bangexam.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 /**
  * @author kaneki
  * @date 2019/7/13 14:24
@@ -76,5 +79,10 @@ public class UserServiceImpl implements UserService {
         }
         System.out.println(userMapper.changePassword(user.getId(), newPassword));
         return userMapper.changePassword(user.getId(), newPassword) > 0 ? Result.success() : Result.failure();
+    }
+
+    @Override
+    public Result delAll(List<Integer> id) {
+        return userMapper.delAll(id) > 0 ? Result.success() : Result.failure();
     }
 }

@@ -34,13 +34,14 @@
                 </div>
 
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+                    <button class="layui-btn layui-btn-danger" data-type="getCheckData"><i class="layui-icon"></i>
+                        批量删除</button>
                     <button class="layui-btn" onclick="xadmin.open('添加用户','/user/add',600,300)"><i
                             class="layui-icon"></i>添加用户</button>
                 </div>
 
                 <div class="layui-card-body ">
-                    <table class="layui-hide" id="table" lay-filter="member"></table>
+                    <table class="layui-table" id="table" lay-filter="demo" ></table>
                 </div>
 
                 <div class="layui-card-body ">
@@ -52,7 +53,7 @@
         </div>
     </div>
 </div>
-</body>
+
 <script>
     layui.use('table', function(){
         var table = layui.table;
@@ -72,12 +73,13 @@
                     {type: 'checkbox'}
                     ,{field: 'id', title: 'ID', sort: true}
                     ,{field: 'username', title: '用户名'}
-                    ,{field: 'status', title: '权限', templet: function(d){
+                    ,{field: 'status', title: '状态', templet: function(d){
                         return d.status == '1' ? '是' : '否';
                     }}
                     ,{title:'操作', toolbar: '#barDemo' }
                 ]
             ]
+            ,id: 'table'
         });
 
         //搜索监听提交
@@ -99,7 +101,7 @@
                         {type: 'checkbox', fixed: 'left'}
                         ,{field: 'id', title: 'ID', sort: true}
                         ,{field: 'username', title: '用户名'}
-                        ,{field: 'status', title: '权限', templet: function(d){
+                        ,{field: 'status', title: '状态', templet: function(d){
                             return d.status == '1' ? '是' : '否';
                         }}
                         ,{title:'操作', toolbar: '#barDemo' }
@@ -110,7 +112,7 @@
         });
 
         //监听工具条--删除与编辑
-        table.on('tool(member)', function(obj){
+        table.on('tool(demo)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
@@ -136,9 +138,62 @@
             }
         });
 
+        // //监听表格复选框选择
+        // table.on('checkbox(demo)', function(obj){
+        //     console.log(obj)
+        // });
+
+        //批量删除
+        var $ = layui.$, active = {
+            getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('table')
+                    , data = checkStatus.data
+                    , deList=[];
+                // console.log(data);
+                // layer.alert(JSON.stringify(data));
+                data.forEach(function(n,i){
+                    deList.push(n.id);
+                });
+                console.log(deList);
+                if(deList!=''){
+                    layer.confirm('确定删除所选项吗？', function(index){
+                        $.ajax({
+                            url: '/user/delall',
+                            type:'POST',
+                            dataType:'json',
+                            // contentType:"application/json",
+                            data:{"id":deList},
+                            success:function (result) {
+                                if(result.code == 200){
+                                    layer.alert("删除成功", {icon: 1},function (index1) {
+                                        layer.close(index1);
+                                        //对整个窗口进行刷新
+                                        // xadmin.father_reload();
+                                        //对表进行刷新
+                                        table.reload('table');
+                                    });
+                                }else{
+                                    layer.msg('删除失败');
+                                }
+                            },
+                            'error':function () {
+                                layer.msg('系统错误');
+                            }
+                        })
+                    })
+                }else{
+                    layer.alert("请选择需要删除的行");
+                }
+            }
+        };
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
 
     });
 
 </script>
 
+</body>
 </html>

@@ -2,6 +2,7 @@ package com.bangexam.bangexam.service.impl;
 
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.mapper.QuestionMapper;
+import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.QuestionService;
 import com.bangexam.bangexam.util.QuestionUtil;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -58,7 +61,12 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Result upQuestions(File dest) {
         List<Question> questions = QuestionUtil.getQuestion(dest);
-        System.out.println(questions);
         return questionMapper.saveQuestions(questions) > 0 ? Result.success() : Result.failure();
     }
+
+    @Override
+    public Result<Question> deleteQuestions(int[] questionIds) {
+        return questionMapper.deleteQuestions(questionIds) > 0 ? Result.success() : Result.failure();
+    }
+
 }
