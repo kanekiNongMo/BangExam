@@ -20,7 +20,7 @@
         values(#{majorType}, #{paperName}, now(), now())
     </insert>
 
-    <select id="getPaperByPaperNo" parameterType="Integer" resultType="com.bangexam.bangexam.model.ExamPaper">
+    <select id="getPaperByPaperNo" parameterType="java.lang.Integer" resultType="com.bangexam.bangexam.model.ExamPaper">
         select
         <include refid="Base_Column_List_one"/>
         from exam_paper where paper_no = #{paperNo}
@@ -49,5 +49,18 @@
             (#{paperId} , #{questionId})
         </foreach>
     </insert>
+
+    <sql id="Base_Column_List_three">
+        question_no as questionNo, type as type, question_info as questionInfo,option_a  as optionA,option_b  as optionB,option_c  as optionC, option_d as optionD, answer as answer,answer_explain  as answerExplain
+    </sql>
+
+    <select id="getPaperQuestion" resultType="com.bangexam.bangexam.model.Question" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List_three"/>
+        from exam_paper ep
+        inner join paper_question pq on ep.paper_no = pq.paper_id
+        inner join question q on q.question_no = pq.question_id
+        where ep.paper_no = #{paperId}
+    </select>
 
 </mapper>

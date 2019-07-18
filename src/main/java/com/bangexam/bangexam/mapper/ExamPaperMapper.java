@@ -2,6 +2,7 @@ package com.bangexam.bangexam.mapper;
 
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.ExamPaper;
+import com.bangexam.bangexam.model.Question;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -81,4 +82,12 @@ public interface ExamPaperMapper {
      */
     @Delete("delete from paper_question where paper_id = #{paperId}")
     void deletePaperQuestions(Integer paperId);
+
+    /**
+     * 根据试卷编号查询试卷题目
+     *
+     * @param paperId 试卷编号
+     * @return 该试卷所有题目
+     */
+    List<Question> getPaperQuestion(Integer paperId);
 }
