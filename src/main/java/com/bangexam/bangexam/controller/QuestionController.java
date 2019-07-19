@@ -2,7 +2,6 @@ package com.bangexam.bangexam.controller;
 
 import com.bangexam.bangexam.base.result.PageTableRequest;
 import com.bangexam.bangexam.base.result.Result;
-import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,6 +154,19 @@ public class QuestionController {
             e.printStackTrace();
         }
         return Result.failure();
+    }
+
+    /**
+     * 获得总题数
+     * java题的数量
+     * 测试题的数量
+     * @param genre
+     * @return
+     */
+    @PostMapping("/countQuestion")
+    @ResponseBody
+    public Integer countQuestion (String genre) {
+        return questionService.getCountQuestion(genre);
     }
 
 }

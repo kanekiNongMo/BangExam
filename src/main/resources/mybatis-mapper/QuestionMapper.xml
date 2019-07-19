@@ -104,4 +104,16 @@
         </set>
         where ep.question_no = #{questionNo}
     </update>
+
+    <select id="getCountQuestion" parameterType="string" resultType="int">
+        select count(*) from question
+        <where>
+            <if test="genre != null">
+                major_type = #{genre}
+            </if>
+        </where>
+
+    </select>
+
+
 </mapper>

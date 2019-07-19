@@ -4,11 +4,13 @@ import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.mapper.ExamPaperMapper;
 import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.service.PaperService;
+import com.bangexam.bangexam.vo.PaperVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,6 +55,12 @@ public class PaperServiceImpl implements PaperService {
         map.put("questionIds",questionIds);
         examPaperMapper.deletePaperQuestions(paperId);
         return examPaperMapper.relatedQuestions(map) > 0 ? Result.success() : Result.failure();
+    }
+
+    @Override
+    public Result<PaperVO> getPaper(String paperType) {
+        List<PaperVO> list =  examPaperMapper.getPaper(paperType);
+        return Result.success(list);
     }
 
 }
