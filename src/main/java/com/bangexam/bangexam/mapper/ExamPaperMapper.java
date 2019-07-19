@@ -1,7 +1,8 @@
 package com.bangexam.bangexam.mapper;
 
-import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.ExamPaper;
+import com.bangexam.bangexam.model.Question;
+import com.bangexam.bangexam.vo.PaperVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
