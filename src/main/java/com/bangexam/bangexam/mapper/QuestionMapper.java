@@ -1,6 +1,5 @@
 package com.bangexam.bangexam.mapper;
 
-import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.Question;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -49,4 +48,6 @@ public interface QuestionMapper {
     int saveQuestions(List<Question> list);
 
     int  deleteQuestions(int[] questionIds);
+
+    Integer getCountQuestion(@Param("genre") String genre);
 }

@@ -1,8 +1,8 @@
 package com.bangexam.bangexam.mapper;
 
-import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
+import com.bangexam.bangexam.vo.PaperVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -82,6 +82,10 @@ public interface ExamPaperMapper {
      */
     @Delete("delete from paper_question where paper_id = #{paperId}")
     void deletePaperQuestions(Integer paperId);
+
+    @Select("select m.*,count(q.paper_id) number from exam_paper m left outer join paper_question q ON " +
+            "m.paper_no = q.paper_id WHERE m.status=1 and m.major_type=#{paperType} group by m.paper_no")
+    List<PaperVO> getPaper(@Param("paperType") String paperType);
 
     /**
      * 根据试卷编号查询试卷题目

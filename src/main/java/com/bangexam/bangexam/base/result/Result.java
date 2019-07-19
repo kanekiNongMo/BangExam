@@ -77,6 +77,10 @@ public class Result<T> {
         return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data, 0, null);
     }
 
+    public static <T> Result<T> success(List<T> datas) {
+        return new Result<>(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), null, 0, datas);
+    }
+
     public static <T> Result<T> success(String msg, T data) {
         return new Result<>(ResultCode.SUCCESS.getCode(), msg, data, 0, null);
     }

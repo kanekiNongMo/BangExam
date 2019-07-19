@@ -31,4 +31,6 @@ public interface QuestionService {
     Result upQuestions(File dest);
 
     Result<Question> deleteQuestions(int[] questionIds);
+
+    Integer getCountQuestion(String genre);
 }

@@ -5,6 +5,7 @@ import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.PaperService;
+import com.bangexam.bangexam.vo.PaperVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,6 +87,16 @@ public class PaperController {
     @ResponseBody
     public List<Question> getPaperQuestion (Integer paperNo) {
         return paperService.getPaperQuestion(paperNo);
+    }
+
+    /**
+     * 小程序获取已发布的java和测试的真题试卷
+     */
+    @GetMapping("/getPaper")
+    @ResponseBody
+    public Result<PaperVO> getPaper(String paperType) {
+//        System.out.println("---"+paperType);
+        return paperType != null ? paperService.getPaper(paperType) : Result.failure();
     }
 
 }
