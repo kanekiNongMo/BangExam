@@ -3,6 +3,7 @@ package com.bangexam.bangexam.controller;
 import com.bangexam.bangexam.base.result.PageTableRequest;
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.ExamPaper;
+import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.PaperService;
 import com.bangexam.bangexam.vo.PaperVO;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author kaneki
@@ -79,6 +81,12 @@ public class PaperController {
         }
         log.info("paperNo ::" + paperNo);
         return paperService.relatedQuestions(paperNo, questionIds);
+    }
+
+    @GetMapping("/getQuestion")
+    @ResponseBody
+    public List<Question> getPaperQuestion (Integer paperNo) {
+        return paperService.getPaperQuestion(paperNo);
     }
 
     /**

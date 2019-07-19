@@ -3,6 +3,9 @@ package com.bangexam.bangexam.service;
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.vo.PaperVO;
+import com.bangexam.bangexam.model.Question;
+
+import java.util.List;
 
 /**
  * @author kaneki
@@ -60,4 +63,12 @@ public interface PaperService {
     Result<ExamPaper> relatedQuestions(Integer paperId, int[] questionIds);
 
     Result<PaperVO> getPaper(String paperType);
+
+    /**
+     * 根据试卷id查询试题
+     *
+     * @param paperId 试卷id
+     * @return 查询到的题目
+     */
+    List<Question> getPaperQuestion(Integer paperId);
 }

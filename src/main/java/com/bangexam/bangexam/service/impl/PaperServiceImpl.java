@@ -1,8 +1,10 @@
 package com.bangexam.bangexam.service.impl;
 
 import com.bangexam.bangexam.base.result.Result;
+import com.bangexam.bangexam.base.result.ResultCode;
 import com.bangexam.bangexam.mapper.ExamPaperMapper;
 import com.bangexam.bangexam.model.ExamPaper;
+import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.PaperService;
 import com.bangexam.bangexam.vo.PaperVO;
 import org.springframework.stereotype.Service;
@@ -50,9 +52,9 @@ public class PaperServiceImpl implements PaperService {
 
     @Override
     public Result<ExamPaper> relatedQuestions(Integer paperId, int[] questionIds) {
-        Map<String,Object> map = new HashMap<>(20);
-        map.put("paperId",paperId);
-        map.put("questionIds",questionIds);
+        Map<String, Object> map = new HashMap<>(20);
+        map.put("paperId", paperId);
+        map.put("questionIds", questionIds);
         examPaperMapper.deletePaperQuestions(paperId);
         return examPaperMapper.relatedQuestions(map) > 0 ? Result.success() : Result.failure();
     }
@@ -61,6 +63,11 @@ public class PaperServiceImpl implements PaperService {
     public Result<PaperVO> getPaper(String paperType) {
         List<PaperVO> list =  examPaperMapper.getPaper(paperType);
         return Result.success(list);
+    }
+
+    @Override
+    public List<Question> getPaperQuestion(Integer paperId) {
+        return examPaperMapper.getPaperQuestion(paperId);
     }
 
 }

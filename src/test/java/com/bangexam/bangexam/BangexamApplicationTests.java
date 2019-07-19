@@ -1,7 +1,9 @@
 package com.bangexam.bangexam;
 
 import com.bangexam.bangexam.base.result.Result;
+import com.bangexam.bangexam.mapper.ExamPaperMapper;
 import com.bangexam.bangexam.model.ExamPaper;
+import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.PaperService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,9 @@ public class BangexamApplicationTests {
 
     @Autowired
     private PaperService paperService;
+
+    @Autowired
+    private ExamPaperMapper examPaperMapper;
 
     @Test
     public void paperPageTest() {
@@ -34,7 +39,7 @@ public class BangexamApplicationTests {
         examPaper.setPaperName("2020java");
         examPaper.setMajorType(2);
         Result<ExamPaper> e = paperService.savePaper(examPaper);
-        System.out.println("code:"+e.getCode()+" msg:"+e.getMsg());
+        System.out.println("code:" + e.getCode() + " msg:" + e.getMsg());
     }
 
     @Test
@@ -50,7 +55,13 @@ public class BangexamApplicationTests {
         examPaper.setMajorType(2);
         examPaper.setPaperNo(13);
         Result<ExamPaper> e = paperService.updatePaper(examPaper);
-        System.out.println("code:"+e.getCode()+" msg:"+e.getMsg());
+        System.out.println("code:" + e.getCode() + " msg:" + e.getMsg());
+    }
+
+    @Test
+    public void getQuestionTest() {
+        List<Question> questionList = paperService.getPaperQuestion(1);
+        questionList.forEach(System.out::println);
     }
 
 }
