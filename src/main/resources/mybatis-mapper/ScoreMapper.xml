@@ -4,4 +4,29 @@
     <sql id="Base_Column_List_one">
 
     </sql>
+
+    <select id="getUserScoreTrueQuestionNum" resultMap="ResultScoreAndUser">
+        select s.user_id userId, eu.user_name, sum(true_number) trueNumber
+        from score s
+        inner join exam_user eu on s.user_id = eu.user_id
+        inner join exam_paper ep ON ep.paper_no = s.paper_id
+        where eu.user_status = 1
+        <if test="majorType != null">
+            and ep.major_type = #{majorType}
+        </if>
+        group by s.user_id
+        order by trueNumber desc
+        <if test="limit != null and start != null">
+            limit #{start}, #{limit}
+        </if>
+    </select>
+
+    <resultMap id="ResultScoreAndUser" type="com.bangexam.bangexam.model.Score">
+        <id property="scoreId" column="score_id"/>
+        <result property="trueNumber" column="trueNumber"/>
+        <association property="user" javaType="com.bangexam.bangexam.model.User">
+            <id property="id" column="userId"/>
+            <result property="username" column="user_name"/>
+        </association>
+    </resultMap>
 </mapper>

@@ -2,8 +2,10 @@ package com.bangexam.bangexam;
 
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.mapper.ExamPaperMapper;
+import com.bangexam.bangexam.mapper.ScoreMapper;
 import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
+import com.bangexam.bangexam.model.Score;
 import com.bangexam.bangexam.service.PaperService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -22,6 +25,9 @@ public class BangexamApplicationTests {
 
     @Autowired
     private ExamPaperMapper examPaperMapper;
+
+    @Resource
+    private ScoreMapper scoreMapper;
 
     @Test
     public void paperPageTest() {
@@ -62,6 +68,12 @@ public class BangexamApplicationTests {
     public void getQuestionTest() {
         List<Question> questionList = paperService.getPaperQuestion(1);
         questionList.forEach(System.out::println);
+    }
+
+    @Test
+    public void getTrueNumTest() {
+        List<Score> scoreList = scoreMapper.getUserScoreTrueQuestionNum(0, 3, null);
+        scoreList.forEach(System.out::println);
     }
 
 }

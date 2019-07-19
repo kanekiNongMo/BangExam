@@ -23,8 +23,7 @@ public class Score implements Serializable {
     @Column(name = "score_id")
     private Integer scoreId;
 
-    @Column(name = "user_id")
-    private Integer userId;
+    private User user;
 
     @Column(name = "score")
     private String score;
