@@ -41,6 +41,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public Result<Question> getListByMajorType(Integer offset, Integer limit, Integer majorType) {
+        return Result.success(questionMapper.countMajorTypePapers(majorType), questionMapper.getListByMajorType(offset, limit, majorType));
+    }
+
+    @Override
     public Result<Question> updateQuestion(Question question) {
         return questionMapper.updateQuestion(question) > 0 ? Result.success() : Result.failure();
     }

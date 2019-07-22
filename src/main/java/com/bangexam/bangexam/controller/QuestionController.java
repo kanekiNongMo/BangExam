@@ -4,6 +4,7 @@ import com.bangexam.bangexam.base.result.PageTableRequest;
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.service.QuestionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import java.io.IOException;
  * @author tyj
  * @date 2019/7/15 13:37
  */
+@Slf4j
 @Controller
 @RequestMapping("/questions")
 public class QuestionController {
@@ -29,6 +31,14 @@ public class QuestionController {
     public Result<Question> getQuestions(PageTableRequest pageRequest) {
         pageRequest.countOffset();
         return questionService.getAllQuestionByPage(pageRequest.getOffset(), pageRequest.getLimit());
+    }
+
+    @GetMapping("/listByMajorType")
+    @ResponseBody
+    public Result<Question> getListByMajorType(PageTableRequest pageRequest, Integer majorType) {
+        log.info("majorType::"+majorType);
+        pageRequest.countOffset();
+        return questionService.getListByMajorType(pageRequest.getOffset(), pageRequest.getLimit(),  majorType);
     }
 
 

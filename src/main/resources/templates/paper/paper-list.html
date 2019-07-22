@@ -41,7 +41,10 @@
         </div>
     </div>
 </div>
-
+<script type="text/html" id="switchTpl">
+    <input  type="checkbox" name="status" value="{{d.paperNo}}" lay-skin="switch" lay-text="发布|取消"
+            lay-filter="status" {{d.status == 1 ? 'checked' : ''}} / >
+</script>
 </body>
 </html>
 <script>
@@ -133,7 +136,7 @@
             } else if (obj.event === 'edit') {
                 xadmin.open('编辑试卷信息', '/paper/edit?paperNo=' + data.paperNo, 450, 340);
             }else if (obj.event === 'relate') {
-                xadmin.open('关联考题', '/paper/relate?paperNo=' + data.paperNo);
+                xadmin.open('关联考题', '/paper/relate?paperNo=' + data.paperNo+"&majorType="+ data.majorType);
             }
         });
     });

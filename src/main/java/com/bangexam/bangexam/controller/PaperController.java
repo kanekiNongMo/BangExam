@@ -56,7 +56,7 @@ public class PaperController {
     @PostMapping("/edit")
     @ResponseBody
     public Result<ExamPaper> updatePaper(@RequestBody ExamPaper examPaper) {
-        log.info(examPaper.getPaperNo() + ":::::" + examPaper.getStatus());
+        log.info(examPaper.getPaperNo() + ":::::" + examPaper.getMajorType());
         return paperService.updatePaper(examPaper);
     }
 
@@ -69,6 +69,7 @@ public class PaperController {
     @GetMapping("/relate")
     public String toRelatePaper(Model model, ExamPaper examPaper) {
         log.info("examPaper::" + examPaper.getPaperNo());
+        log.info("examPaper::" + examPaper.getMajorType());
         model.addAttribute(examPaper);
         return "paper/related-questions";
     }
