@@ -136,7 +136,7 @@
             } else if (obj.event === 'edit') {
                 xadmin.open('编辑试卷信息', '/paper/edit?paperNo=' + data.paperNo, 450, 340);
             }else if (obj.event === 'relate') {
-                xadmin.open('关联考题', '/paper/relate?paperNo=' + data.paperNo);
+                xadmin.open('关联考题', '/paper/relate?paperNo=' + data.paperNo+"&majorType="+ data.majorType);
             }
         });
     });

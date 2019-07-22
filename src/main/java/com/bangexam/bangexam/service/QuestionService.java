@@ -13,6 +13,8 @@ public interface QuestionService {
 
     Result<Question> getAllQuestionByPage(Integer offset, Integer limit);
 
+    Result<Question> getListByMajorType(Integer offset, Integer limit, Integer majorType);
+
     Result<Question> updateQuestion(Question question);
 
     int deleteQuestion(Integer questionNo);

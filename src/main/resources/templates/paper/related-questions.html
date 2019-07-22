@@ -20,8 +20,8 @@
                             <div class="layui-input-inline">
                                 <select name="majorType" id="majorType"  lay-filter="majorType" required="required">
                                     <option selected="selected" value=""></option>
-                                    <option value="1">JAVA</option>
-                                    <option value="2">测试</option>
+                                    <option th:selected="${examPaper.majorType} == 1" value="1">Java</option>
+                                    <option th:selected="${examPaper.majorType} == 2" value="2">测试</option>
                                 </select>
                             </div>
                             <label>
@@ -175,10 +175,13 @@
 
         table.render({
             elem: '#table'
-            , url: '/questions/list'
+            , url: '/questions/listByMajorType'
             , toolbar: '#toolbarDemo'
             , page: true
             , cellMinWidth: 50
+            , where: {
+                "majorType": $("#majorType").val()
+            }
             , response: {
                 countName: 'count',
                 dataName: 'datas'

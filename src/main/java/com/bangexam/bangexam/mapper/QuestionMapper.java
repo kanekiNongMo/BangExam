@@ -50,4 +50,9 @@ public interface QuestionMapper {
     int  deleteQuestions(int[] questionIds);
 
     Integer getCountQuestion(@Param("genre") String genre);
+
+    List<Question> getListByMajorType(@Param("startPosition") Integer startPosition, @Param("limit") Integer limit, @Param("majorType") Integer majorType);
+
+    @Select("select count(*) from question where major_type = #{majorType}")
+    Integer countMajorTypePapers(Integer majorType);
 }
