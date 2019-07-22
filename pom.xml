@@ -105,7 +105,12 @@
             <version>0.0.20131108.vaadin1</version>
             <scope>compile</scope>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15</artifactId>
+            <version>1.46</version>
+        </dependency>
 
     </dependencies>
 
