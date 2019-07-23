@@ -4,9 +4,8 @@
     <select id="scoreDetail" parameterType="java.lang.Integer" resultMap="ResultAnswer">
         SELECT a.answer userAnswer, q.*
         FROM score s
-                 inner join paper_question pq on pq.paper_id = s.paper_id
-                 inner join answer a on a.paper_question_id = pq.paper_question_id
-                 inner join question q on q.question_no = pq.question_id
+                 inner join answer a on a.score_id = s.score_id
+                 inner join question q on q.question_no = a.question_id
         WHERE s.score_id = #{scoreId}
     </select>
     <resultMap id="ResultAnswer" type="com.bangexam.bangexam.model.Answer">
