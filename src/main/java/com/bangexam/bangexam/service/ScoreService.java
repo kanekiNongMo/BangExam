@@ -18,4 +18,12 @@ public interface ScoreService {
      * @return 每个用户对题总数并排序
      */
     List<Score> getUserScoreTrueQuestionNum(Integer start, Integer limit, Integer majorType);
+
+    /**
+     * 查询成绩记录
+     *
+     * @param userId 用户编号
+     * @return 该用户成绩
+     */
+    List<Score> record(Integer userId);
 }

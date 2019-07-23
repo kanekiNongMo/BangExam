@@ -1,5 +1,6 @@
 package com.bangexam.bangexam.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -25,12 +26,14 @@ public class Score implements Serializable {
 
     private User user;
 
+    private ExamPaper examPaper;
+
     @Column(name = "score")
     private String score;
 
+    @JsonFormat(pattern = "yyy-MM-dd", timezone = "GMT+8")
     @Column(name = "exam_time")
     private String examTime;
-
 
     @Column(name = "true_number")
     private String trueNumber;

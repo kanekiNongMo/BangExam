@@ -24,4 +24,9 @@ public class ScoreServiceImpl implements ScoreService {
     public List<Score> getUserScoreTrueQuestionNum(Integer start, Integer limit, Integer majorType) {
         return scoreMapper.getUserScoreTrueQuestionNum(start, limit, majorType);
     }
+
+    @Override
+    public List<Score> record(Integer userId) {
+        return scoreMapper.record(userId);
+    }
 }

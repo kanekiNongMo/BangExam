@@ -3,6 +3,8 @@ package com.bangexam.bangexam;
 import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.mapper.ExamPaperMapper;
 import com.bangexam.bangexam.mapper.ScoreMapper;
+import com.bangexam.bangexam.mapper.UserAnswerMapper;
+import com.bangexam.bangexam.model.Answer;
 import com.bangexam.bangexam.model.ExamPaper;
 import com.bangexam.bangexam.model.Question;
 import com.bangexam.bangexam.model.Score;
@@ -28,6 +30,10 @@ public class BangexamApplicationTests {
 
     @Resource
     private ScoreMapper scoreMapper;
+
+    @Resource
+    private UserAnswerMapper userAnswerMapper;
+
 
     @Test
     public void paperPageTest() {
@@ -73,6 +79,18 @@ public class BangexamApplicationTests {
     @Test
     public void getTrueNumTest() {
         List<Score> scoreList = scoreMapper.getUserScoreTrueQuestionNum(0, 3, null);
+        scoreList.forEach(System.out::println);
+    }
+
+    @Test
+    public void recordTest() {
+        List<Score> scoreList = scoreMapper.record(1);
+        scoreList.forEach(System.out::println);
+    }
+
+    @Test
+    public void scoreDetailTest() {
+        List<Answer> scoreList = userAnswerMapper.scoreDetail(1);
         scoreList.forEach(System.out::println);
     }
 

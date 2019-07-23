@@ -21,12 +21,29 @@
         </if>
     </select>
 
+    <select id="record" parameterType="java.lang.Integer" resultMap="ResultScoreAndPaper">
+        select s.score_id, s.score, s.exam_time examTime, ep.paper_name paperName
+        from score s
+        inner join exam_paper ep on s.paper_id = ep.paper_no
+        where s.user_id = #{userId}
+    </select>
+
     <resultMap id="ResultScoreAndUser" type="com.bangexam.bangexam.model.Score">
         <id property="scoreId" column="score_id"/>
         <result property="trueNumber" column="trueNumber"/>
         <association property="user" javaType="com.bangexam.bangexam.model.User">
             <id property="id" column="userId"/>
             <result property="username" column="user_name"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="ResultScoreAndPaper" type="com.bangexam.bangexam.model.Score">
+        <id property="scoreId" column="score_id"/>
+        <result property="score" column="score"/>
+        <result property="examTime" column="examTime"/>
+        <association property="examPaper" javaType="com.bangexam.bangexam.model.ExamPaper">
+            <id property="paperNo" column="paper_no"/>
+            <result property="paperName" column="paperName"/>
         </association>
     </resultMap>
 </mapper>

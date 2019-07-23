@@ -1,16 +1,14 @@
-package com.bangexam.bangexam.mapper;
+package com.bangexam.bangexam.service;
 
 import com.bangexam.bangexam.model.Answer;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
  * @author kaneki
- * @date 2019/7/13 16:52
+ * @date 2019/7/19 10:55
  */
-@Mapper
-public interface UserAnswerMapper {
+public interface AnswerService {
     /**
      * 成绩详情
      *

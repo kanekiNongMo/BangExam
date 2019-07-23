@@ -1,5 +1,6 @@
 package com.bangexam.bangexam.controller;
 
+import com.bangexam.bangexam.base.result.Result;
 import com.bangexam.bangexam.model.Score;
 import com.bangexam.bangexam.service.ScoreService;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,12 @@ public class ScoreController {
             majorType = null;
         }
         return scoreService.getUserScoreTrueQuestionNum(start, limit, majorType);
+    }
+
+    @RequestMapping("/record")
+    @ResponseBody
+    public Result<Score> record(Integer userId) {
+        return null == userId ? Result.failure() : Result.success(scoreService.record(userId));
     }
 
 }

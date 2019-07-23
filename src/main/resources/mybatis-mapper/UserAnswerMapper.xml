@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bangexam.bangexam.mapper.UserAnswerMapper">
-    <sql id="Base_Column_List_one">
+    <select id="scoreDetail" parameterType="java.lang.Integer" resultMap="ResultAnswer">
+        SELECT a.answer userAnswer, q.*
+        FROM score s
+                 inner join paper_question pq on pq.paper_id = s.paper_id
+                 inner join answer a on a.paper_question_id = pq.paper_question_id
+                 inner join question q on q.question_no = pq.question_id
+        WHERE s.score_id = #{scoreId}
+    </select>
+    <resultMap id="ResultAnswer" type="com.bangexam.bangexam.model.Answer">
+        <id property="id" column="id"/>
+        <result property="userAnswer" column="userAnswer"/>
+        <association property="question" javaType="com.bangexam.bangexam.model.Question">
+            <id property="questionNo" column="question_no"/>
+            <result property="type" column="type"/>
+            <result property="majorType" column="major_type"/>
+            <result property="questionInfo" column="question_info"/>
+            <result property="optionA" column="option_a"/>
+            <result property="optionB" column="option_b"/>
+            <result property="optionC" column="option_c"/>
+            <result property="optionD" column="option_d"/>
+            <result property="answer" column="answer"/>
+            <result property="answerExplain" column="answer_explain"/>
+        </association>
+    </resultMap>
 
-    </sql>
 </mapper>

@@ -23,4 +23,15 @@ public interface ScoreMapper {
     List<Score> getUserScoreTrueQuestionNum(@Param("start") Integer start,
                                             @Param("limit") Integer limit,
                                             @Param("majorType") Integer majorType);
+
+    /**
+     * 查询成绩记录
+     *
+     * @param userId 用户编号
+     * @return 该用户成绩
+     */
+    List<Score> record(Integer userId);
+
+
+
 }
